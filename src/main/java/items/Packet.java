@@ -1,4 +1,6 @@
+package items;
 import java.util.ArrayList;
+
 public class Packet {
 
     ArrayList<Carte> pack;
@@ -7,7 +9,7 @@ public class Packet {
         this.pack = new ArrayList<>();
     }
 
-    void init() {
+    public void init() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
                 Carte carte = new Carte(Carte.Valeur.values()[j], Carte.Couleur.values()[i]);
@@ -16,18 +18,13 @@ public class Packet {
         }
     }
 
-    void descritpion() {
+    void description() {
         for (int i = 0; i < pack.size(); i++) {
-            pack.get(i).description();
+            this.pack.get(i).description();
         }
     }
 
-    void descritpionNumerotee() {
-        for (int i = 0; i < pack.size(); i++) {
-            System.out.print(1 + i + " - "); pack.get(i).description();
-            //System.out.println();
-        }
-    }
+    public  void piocher(Carte e) { this.pack.add(e); }
 
     void premiereCarte() {
         // while ((int)(p.pack.size()*Math.random()) != 51) {

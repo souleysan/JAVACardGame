@@ -1,8 +1,8 @@
+package items;
 
 public class Carte {
 
     enum Valeur {AS, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF, DIX, VALET, DAME, ROI};
-    // enum Special {AS, DEUX, SEPT, HUIT};
     enum Couleur {CARREAUX, COEUR, PIQUE, TREFLE};
 
     Valeur valeur;
@@ -11,6 +11,9 @@ public class Carte {
     public Carte(Valeur v, Couleur c) {
         this.valeur = v; this.couleur = c;
     }
+
+    Valeur getValeur() { return this.valeur; }
+    Couleur getCouleur() { return this.couleur; }
 
     void description() { System.out.println("Je suis un " + this.valeur + " de " + this.couleur); }
 
