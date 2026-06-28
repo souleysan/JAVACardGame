@@ -1,5 +1,6 @@
 package player;
 import items.*;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -15,11 +16,23 @@ public class Player {
         this.deck = new Packet();
         Player.identifiant++;
     }
-    
+
+    public void description() {
+        System.out.println(this.getNom() + " __________"); this.deck.description();
+    }
 
     Nom getNom() { return this.nom; }
+    ArrayList<Carte> getPack() { return this.deck.pack; }
     int getIdentifiant() { return Player.identifiant; }
 
     void piocher(Carte e) { this.deck.piocher(e); }
+    // void piocherDeux(Packet general) { this.deck.piocherDeux(general); }
+    // void piocherCinq(Packet general) { this.deck.piocherCinq(general); }
+    
+    void poserCarte(Packet general, int e) {
+        general.piocher(
+            this.getPack().get(e));
+    }
+
 
 }

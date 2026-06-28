@@ -3,10 +3,14 @@ import java.util.ArrayList;
 
 public class Packet {
 
-    ArrayList<Carte> pack;
+    public ArrayList<Carte> pack;
 
     public Packet() {
         this.pack = new ArrayList<>();
+    }
+
+    int getSize() {
+        return this.pack.size();
     }
 
     public void init() {
@@ -18,20 +22,81 @@ public class Packet {
         }
     }
 
-    void description() {
-        for (int i = 0; i < pack.size(); i++) {
+    // void initPioche(Packet general) {
+    //     for (int i = 0; i < general.pack.size(); i++) {
+    //         this.piocher(general.defausser(general.pack.get(i)));
+    //     }
+    // }
+
+    void initPremiereCarte(Packet general) {
+        int rand = (int)(general.getSize() * Math.random());
+        this.piocher(general.pack.get(rand));
+    }
+
+    boolean estDansPack(Carte e) {
+        return this.pack.contains(e);
+    }
+
+    public void description() {
+        for (int i = 0; i < this.getSize(); i++) {
             this.pack.get(i).description();
         }
     }
 
-    public  void piocher(Carte e) { this.pack.add(e); }
+    public void piocher(Carte e) {
+        this.pack.add(e);
+    }
 
-    void premiereCarte() {
-        // while ((int)(p.pack.size()*Math.random()) != 51) {
-        //     System.out.println("pas encore...");
-        // } System.out.println("Fais attention cela peut e^tre `OutOfBounds`");
+    /*
+    public Carte defausser(Carte e) {
+        this.estDansPack(e) ? 
+            Carte ret = e;
+            this.pack.remove(e);
+            return ret;            
+        } else {}
+    }
+
+    public void piocherDeux(Packet general) {
+        for (int i = 0; i < 2; i++) {
+            int rand = (int)(general.getSize() * Math.random());
+            this.piocher(general.pack.get(rand));
+            general.defausser(general.pack.get(rand));
+        }
+    }
+
+    public void piocherCinq(Packet general) {
+        for (int i = 0; i < 5; i++) {
+            int rand = (int)(general.pack.size() * Math.random());
+            this.piocher(general.pack.get(rand));
+            general.defausser(general.pack.get(rand));
+        }
     }
 
 
+
+
+
+
+    public static void main(String[] args) {
+        Packet p = new Packet();
+        Packet d = new Packet();
+        Packet c = new Packet();
+        Packet pC = new Packet();
+        p.init();
+        d.piocherDeux(p);
+        c.piocherCinq(p);
+        pC.initPremiereCarte(p);
+
+        d.description();
+        System.out.println("______________");
+        c.description();
+        System.out.println("______________");
+        p.description();
+        System.out.println("______________");
+        pC.description();
+
+
+    }
+        */
 
 }
