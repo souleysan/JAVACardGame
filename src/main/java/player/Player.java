@@ -11,7 +11,7 @@ public class Player {
     static int identifiant = 1;
 
     public Player() {
-        // AJOUT D'UN CONSTRUCTEUR OÙ L'ON POURRA CHOISIR SON NOM
+        // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
         this.nom = Player.Nom.values()[this.getIdentifiant()];
         this.deck = new Packet();
         Player.identifiant++;
@@ -24,15 +24,14 @@ public class Player {
     Nom getNom() { return this.nom; }
     ArrayList<Carte> getPack() { return this.deck.pack; }
     int getIdentifiant() { return Player.identifiant; }
+    Carte getCardByIndex(int index) { return this.deck.getCardByIndex(index); }
 
     void piocher(Carte e) { this.deck.piocher(e); }
-    // void piocherDeux(Packet general) { this.deck.piocherDeux(general); }
-    // void piocherCinq(Packet general) { this.deck.piocherCinq(general); }
+    void piocherDeux(Packet general) { this.deck.piocherDeux(general); }
+    void piocherCinq(Packet general) { this.deck.piocherCinq(general); }
     
-    void poserCarte(Packet general, int e) {
-        general.piocher(
-            this.getPack().get(e));
-    }
+    void poserCarte(Packet table, int e) { table.piocher(this.getCardByIndex(e)); }
+    void passerTour() {} // On verra plus tard
 
 
 }

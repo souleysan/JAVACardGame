@@ -5,36 +5,27 @@ public class Packet {
 
     public ArrayList<Carte> pack;
 
-    public Packet() {
-        this.pack = new ArrayList<>();
-    }
+    public Packet() { this.pack = new ArrayList<>(); }
 
-    int getSize() {
-        return this.pack.size();
-    }
 
     public void init() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 13; j++) {
+        for (int i = 0; i < (3 + 1); i++) {
+            for (int j = 0; j < (12 + 1); j++) {
                 Carte carte = new Carte(Carte.Valeur.values()[j], Carte.Couleur.values()[i]);
                 pack.add(carte);
             }
         }
     }
 
-    // void initPioche(Packet general) {
-    //     for (int i = 0; i < general.pack.size(); i++) {
-    //         this.piocher(general.defausser(general.pack.get(i)));
-    //     }
-    // }
-
     void initPremiereCarte(Packet general) {
-        int rand = (int)(general.getSize() * Math.random());
-        this.piocher(general.pack.get(rand));
+        int rand = (int) (general.getSize() * Math.random());
+        this.piocher(general.getCardByIndex(rand));
     }
 
-    boolean estDansPack(Carte e) {
-        return this.pack.contains(e);
+    void initPioche(Packet general) {
+        for (int i = 0; i < general.getSize(); i++) {
+            this.piocher(general.defausser(general.getCardByIndex(i)));
+        }
     }
 
     public void description() {
@@ -43,38 +34,34 @@ public class Packet {
         }
     }
 
-    public void piocher(Carte e) {
-        this.pack.add(e);
-    }
+    int getSize() { return this.pack.size(); }
+    public Carte getCardByIndex(int index) { return this.pack.get(index); }
 
-    /*
-    public Carte defausser(Carte e) {
-        this.estDansPack(e) ? 
-            Carte ret = e;
-            this.pack.remove(e);
-            return ret;            
-        } else {}
-    }
+    public boolean estDansPack(Carte e) { return this.pack.contains(e); }
+
+    public void piocher(Carte e) { this.pack.add(e); }
 
     public void piocherDeux(Packet general) {
         for (int i = 0; i < 2; i++) {
-            int rand = (int)(general.getSize() * Math.random());
-            this.piocher(general.pack.get(rand));
-            general.defausser(general.pack.get(rand));
+            int rand = (int) (general.getSize() * Math.random());
+            this.piocher(general.getCardByIndex(rand));
+            general.defausser(general.getCardByIndex(rand));
         }
     }
 
     public void piocherCinq(Packet general) {
         for (int i = 0; i < 5; i++) {
-            int rand = (int)(general.pack.size() * Math.random());
-            this.piocher(general.pack.get(rand));
-            general.defausser(general.pack.get(rand));
+            int rand = (int) (general.getSize() * Math.random());
+            this.piocher(general.getCardByIndex(rand));
+            general.defausser(general.getCardByIndex(rand));
         }
     }
 
-
-
-
+    Carte defausser(Carte e) {
+        Carte def = new Carte(e.getValeur(), e.getCouleur());
+        this.pack.remove(e);
+        return def;
+    }
 
 
     public static void main(String[] args) {
@@ -82,21 +69,24 @@ public class Packet {
         Packet d = new Packet();
         Packet c = new Packet();
         Packet pC = new Packet();
-        p.init();
-        d.piocherDeux(p);
-        c.piocherCinq(p);
-        pC.initPremiereCarte(p);
+        
+        p.init(); // Initialise tout le packet de carte
+        d.piocherDeux(p); // pioche 2 cartes
+        c.piocherCinq(p); // pioche 5 cartes
+        pC.initPremiereCarte(p); // Initialise la table composée d'1 carte
 
         d.description();
         System.out.println("______________");
         c.description();
         System.out.println("______________");
+        pC.description();
+        System.out.println("______________");
         p.description();
         System.out.println("______________");
-        pC.description();
 
+        c.defausser(c.defausser(c.getCardByIndex(0))); // On retire la 1ere carte du deck de nom c
+        c.description();
 
     }
-        */
 
 }
