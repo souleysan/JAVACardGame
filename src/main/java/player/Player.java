@@ -8,20 +8,27 @@ public class Player {
 
     Nom nom;
     Packet deck;
-    static int identifiant = 1;
+    static int identifiant = 0;
 
-    public Player() {
+    public Player(/*int nombreDeCarte*/) {
         // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
         this.nom = Player.Nom.values()[this.getIdentifiant()];
         this.deck = new Packet();
+        // this.initPlayerDeck(deck, nombreDeCarte);
         Player.identifiant++;
     }
 
     public void description() {
-        System.out.println(this.getNom() + " __________"); this.deck.description();
+        System.out.println(this.getNom() + " __________");
+        this.deck.description();
+    }
+
+    public void initPacket(Packet general, int num) {
+        this.deck.initPacket(general, num);
     }
 
     Nom getNom() { return this.nom; }
+    Packet getDeck() { return this.deck; }
     ArrayList<Carte> getPack() { return this.deck.pack; }
     int getIdentifiant() { return Player.identifiant; }
     Carte getCardByIndex(int index) { return this.deck.getCardByIndex(index); }
@@ -33,5 +40,16 @@ public class Player {
     void poserCarte(Packet table, int e) { table.piocher(this.getCardByIndex(e)); }
     void passerTour() {} // On verra plus tard
 
+
+
+    public static void main (String [] args) {
+
+
+        Player p = new Player();
+        p.piocher(new Carte(Carte.Valeur.AS, Carte.Couleur.CARREAUX));
+        p.description();
+
+
+    }
 
 }

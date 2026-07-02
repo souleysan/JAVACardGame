@@ -2,8 +2,8 @@ package items;
 
 public class Carte {
 
-    enum Valeur {AS, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF, DIX, VALET, DAME, ROI};
-    enum Couleur {CARREAUX, COEUR, PIQUE, TREFLE};
+    public enum Valeur {AS, DEUX, TROIS, QUATRE, CINQ, SIX, SEPT, HUIT, NEUF, DIX, VALET, DAME, ROI};
+    public enum Couleur {CARREAUX, COEUR, PIQUE, TREFLE};
 
     Valeur valeur;
     Couleur couleur;

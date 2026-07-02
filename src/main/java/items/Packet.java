@@ -17,14 +17,19 @@ public class Packet {
         }
     }
 
-    void initPremiereCarte(Packet general) {
+    public void initPremiereCarte(Packet general) {
         int rand = (int) (general.getSize() * Math.random());
-        this.piocher(general.getCardByIndex(rand));
+        this.piocher(/* general.getCardByIndex(rand) */ general.defausser(general.getCardByIndex(rand)));
     }
 
-    void initPioche(Packet general) {
-        for (int i = 0; i < general.getSize(); i++) {
-            this.piocher(general.defausser(general.getCardByIndex(i)));
+    public void initPioche(Packet general) {
+        // for (int i = 0; i < general.getSize(); i++) {
+        //     this.piocher(general.defausser(general.getCardByIndex(i)));
+        //     i--;
+        // }
+
+        while (!general.isEmpty()) {
+            this.piocher(general.defausser(general.getCardByIndex(0)));
         }
     }
 
@@ -36,6 +41,7 @@ public class Packet {
 
     int getSize() { return this.pack.size(); }
     public Carte getCardByIndex(int index) { return this.pack.get(index); }
+    boolean isEmpty() { return this.getSize() == 0; }
 
     public boolean estDansPack(Carte e) { return this.pack.contains(e); }
 
@@ -57,6 +63,17 @@ public class Packet {
         }
     }
 
+    public void initPacket(Packet general, int num) {
+        for (int i = 0; i < num; i++) {
+            int rand = (int) (general.getSize() * Math.random());
+            this.piocher(general.defausser(general.getCardByIndex(rand)));
+            //  getCardByIndex(rand));
+            // general.defausser(general.getCardByIndex(rand));
+        }
+    }
+
+
+
     Carte defausser(Carte e) {
         Carte def = new Carte(e.getValeur(), e.getCouleur());
         this.pack.remove(e);
@@ -69,9 +86,13 @@ public class Packet {
         Packet d = new Packet();
         Packet c = new Packet();
         Packet pC = new Packet();
+        Packet r = new Packet();
         
         p.init(); // Initialise tout le packet de carte
-        d.piocherDeux(p); // pioche 2 cartes
+        p.description();
+        System.out.println("===========================================");
+        
+        /* d.piocherDeux(p); // pioche 2 cartes
         c.piocherCinq(p); // pioche 5 cartes
         pC.initPremiereCarte(p); // Initialise la table composée d'1 carte
 
@@ -86,6 +107,25 @@ public class Packet {
 
         c.defausser(c.defausser(c.getCardByIndex(0))); // On retire la 1ere carte du deck de nom c
         c.description();
+        System.out.println("______________");
+        System.out.println("______________");
+        System.out.println("______________");
+        System.out.println("______________");
+        r.initPacket(p, 9); r.description();
+        d.description();
+        System.out.println("______________");
+        c.description();
+        System.out.println("______________");
+        pC.description();
+        System.out.println("______________");
+
+        p.description(); */
+
+        d.initPioche(p);
+        d.description();
+        System.out.println("===========================================");
+        p.description();
+
 
     }
 
