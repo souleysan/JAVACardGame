@@ -69,7 +69,7 @@ public class Packet {
      *
      * @return laTailleDuPacket
      */
-    int getSize() {
+    public int getSize() {
         return this.pack.size();
     }
 
@@ -92,7 +92,7 @@ public class Packet {
      *
      * @return siLePacketEstVide
      */
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return this.getSize() == 0;
     }
 
@@ -167,7 +167,7 @@ public class Packet {
      * @param e
      * @return laCarteDefaussee
      */
-    Carte defausser(Carte e) {
+    public Carte defausser(Carte e) {
         Carte def = new Carte(e.getValeur(), e.getCouleur());
         this.pack.remove(e);
         return def;

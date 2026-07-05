@@ -24,11 +24,13 @@ public class Table {
     /**
      * Méthode description - Affiche une description du plan de jeu (la Table)
      */
-    void description() {
-        System.out.println("La table est compsosée de : " + this.getNbJoueurs() + " valeureux joueurs\nPRÉSENTATIONS :");
+    public void description() {
+        System.out.println("\n\nLa table est compsosée de : " + this.getNbJoueurs() + " valeureux joueurs\n\n");
         for (int i = 0; i < this.joueurs.size(); i++) {
-            this.joueurs.get(i).description();
+            this.joueurs.get(i).description(); System.out.println();
         }
+        // this.getJeu().description();
+        System.out.print("Voici le jeu : "); this.jeu.description();
     }
 
 
@@ -38,7 +40,7 @@ public class Table {
      *
      * @param nbJoueurs
      */
-    void initPlayers(int nbJoueurs) {
+    public void initPlayers(int nbJoueurs) {
         if (nbJoueurs >= 2 && nbJoueurs <= 4) {
             for (int i = 0; i < nbJoueurs; i++) {
                 this.joueurs.add(new Player());
@@ -53,7 +55,7 @@ public class Table {
      *
      * @param nombreDeCarte
      */
-    void initPacket(int nombreDeCarte) {
+    public void initPacket(int nombreDeCarte) {
         for (int i = 0; i < this.getNbJoueurs(); i++) {
             this.joueurs.get(i).initPacket(this.jeu, nombreDeCarte);
         }
@@ -65,7 +67,7 @@ public class Table {
      *
      * @param general
      */
-    void initPioche(Packet general) {
+    public void initPioche(Packet general) {
         this.pioche.initPioche(general);
     }
 
@@ -93,7 +95,7 @@ public class Table {
     /**
      * Méthode getNbJoueurs - Renvoie le nombre de joueurs de la partie
      */
-    int getNbJoueurs() {
+    public int getNbJoueurs() {
         return this.nbJoueurs;
     }
 
@@ -101,16 +103,57 @@ public class Table {
     /**
      * Méthode getJeu - Renvoie le jeu [complet] de la partie
      */
-    Packet getJeu() {
+    public Packet getJeu() {
         return this.jeu;
+    }
+
+
+    public void setNbJoueur(int nbJoueur) {
+        this.nbJoueurs = nbJoueur;
     }
 
 
     /**
      * Méthode getPioche - Renvoie la pioche de la partie
      */
-    Packet getPioche() {
+    public Packet getPioche() {
         return this.pioche;
+    }
+
+
+    public boolean resteUnJoueur() {
+        return this.joueurs.size() == 0;
+    }
+
+
+    public Player selectPlayer(int index) {
+        return this.joueurs.get(index);
+    }
+
+    public Carte getLastCard() {
+        return this.getJeu().getCardByIndex(this.getJeu().pack.size() - 1);
+    }
+
+    public void reomvePlayer(int index) {
+        this.joueurs.remove(index);
+        this.setNbJoueur(this.getNbJoueurs() - 1);
+    }
+
+    public static void main(String[] args) {
+        Table p = new Table(3,3);
+        // p.selectPlayer(2).description();
+        // p.description();
+        // p.getLastCard();
+        System.out.println("remove----------------------------------------------");
+        // p.reomvePlayer(0);
+        // p.description();
+        System.out.println("remove----------------------------------------------");
+        // p.reomvePlayer(0);
+        p.description();
+        p.selectPlayer((-1 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        p.selectPlayer((-2 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        p.selectPlayer((-3 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        //System.out.println();
     }
 
 }

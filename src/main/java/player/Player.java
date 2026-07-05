@@ -2,6 +2,7 @@ package player;
 
 import items.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
 
@@ -44,6 +45,7 @@ public class Player {
     public void description() {
         System.out.println(this.getNom() + " __________");
         this.deck.description();
+        System.out.println();
     }
 
 
@@ -64,7 +66,7 @@ public class Player {
      *
      * @return leNomDuJoueur
      */
-    Nom getNom() {
+    public Nom getNom() {
         return this.nom;
     }
 
@@ -74,7 +76,7 @@ public class Player {
      *
      * @return leDeckDuJoueur
      */
-    Packet getDeck() {
+    public Packet getDeck() {
         return this.deck;
     }
 
@@ -84,7 +86,7 @@ public class Player {
      *
      * @return lePackDuDeckDuJoueur
      */
-    ArrayList<Carte> getPack() {
+    public ArrayList<Carte> getPack() {
         return this.deck.pack;
     }
 
@@ -95,7 +97,7 @@ public class Player {
      *
      * @return lIdentifiantDeLaClasse
      */
-    int getIdentifiant() {
+    public int getIdentifiant() {
         return Player.identifiant;
     }
 
@@ -106,7 +108,7 @@ public class Player {
      * @param index
      * @return laCarteParLIndex
      */
-    Carte getCardByIndex(int index) {
+    public Carte getCardByIndex(int index) {
         return this.deck.getCardByIndex(index);
     }
 
@@ -116,7 +118,7 @@ public class Player {
      *
      * @param e
      */
-    void piocher(Carte e) {
+    public void piocher(Carte e) {
         this.deck.piocher(e);
     }
 
@@ -126,7 +128,7 @@ public class Player {
      *
      * @param general
      */
-    void piocherDeux(Packet general) {
+    public void piocherDeux(Packet general) {
         this.deck.piocherDeux(general);
     }
 
@@ -136,7 +138,7 @@ public class Player {
      *
      * @param general
      */
-    void piocherCinq(Packet general) {
+    public void piocherCinq(Packet general) {
         this.deck.piocherCinq(general);
     }
 
@@ -147,11 +149,25 @@ public class Player {
      * @param table
      * @param e
      */
-    void poserCarte(Packet table, int e) {
+    public void poserCarte(Packet table, int e) {
         table.piocher(this.getCardByIndex(e));
     }
 
 
+    public boolean gagant() {
+        return this.deck.pack.isEmpty();
+    }
+
+
+    public boolean checkValueCardChoice(int input) {
+        Scanner scan = new Scanner(System.in);
+        while (input > this.getPack().size() || input < 0) {
+            System.out.println("Carte non selectionnable, choisis-en une autre");
+            this.checkValueCardChoice(scan.nextInt());
+        } return true;
+    }
+
+    
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
 }
