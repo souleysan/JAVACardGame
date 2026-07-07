@@ -63,7 +63,7 @@ public class Carte {
      * suis un AS de PIQUE
      */
     void description() {
-        System.out.println("Je suis un " + this.valeur + " de " + this.couleur);
+        System.out.println(this.valeur + " de " + this.couleur);
     }
 
 

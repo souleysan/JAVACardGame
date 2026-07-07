@@ -113,6 +113,11 @@ public class Table {
     }
 
 
+    public void reduceNbJoueur() {
+        this.setNbJoueur(nbJoueurs--);
+    }
+
+
     /**
      * Méthode getPioche - Renvoie la pioche de la partie
      */
@@ -122,7 +127,7 @@ public class Table {
 
 
     public boolean resteUnJoueur() {
-        return this.joueurs.size() == 0;
+        return this.joueurs.size() == 1;
     }
 
 
@@ -134,7 +139,7 @@ public class Table {
         return this.getJeu().getCardByIndex(this.getJeu().pack.size() - 1);
     }
 
-    public void reomvePlayer(int index) {
+    public void removePlayer(int index) {
         this.joueurs.remove(index);
         this.setNbJoueur(this.getNbJoueurs() - 1);
     }
@@ -150,9 +155,9 @@ public class Table {
         System.out.println("remove----------------------------------------------");
         // p.reomvePlayer(0);
         p.description();
-        p.selectPlayer((-1 + p.getNbJoueurs())%p.getNbJoueurs()).description();
-        p.selectPlayer((-2 + p.getNbJoueurs())%p.getNbJoueurs()).description();
-        p.selectPlayer((-3 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        // p.selectPlayer((-1 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        // p.selectPlayer((-2 + p.getNbJoueurs())%p.getNbJoueurs()).description();
+        // p.selectPlayer((-3 + p.getNbJoueurs())%p.getNbJoueurs()).description();
         //System.out.println();
     }
 

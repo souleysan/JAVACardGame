@@ -59,7 +59,7 @@ public class Packet {
      */
     public void description() {
         for (int i = 0; i < this.getSize(); i++) {
-            this.pack.get(i).description();
+            System.out.print((i + 1) + " : "); this.pack.get(i).description();
         }
     }
 
