@@ -29,10 +29,13 @@ public class Player {
      */
     static int identifiant = 0;
 
+    int id;
+
     /**
      * Constructeur de la Classe Player
      */
     public Player() {
+        this.id = this.getIdentifiant();
         this.nom = Player.Nom.values()[this.getIdentifiant()];
         this.deck = new Packet();
         Player.identifiant++;
@@ -44,7 +47,7 @@ public class Player {
      */
     public void description() {
         System.out.println(this.getNom() + " __________");
-        this.deck.description();
+        this.deck.descriptionNumerotee();
         System.out.println();
     }
 
@@ -99,6 +102,10 @@ public class Player {
      */
     public int getIdentifiant() {
         return Player.identifiant;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 
@@ -170,4 +177,20 @@ public class Player {
     
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
+
+    public static void main (String [] args) {
+        Player p = new Player();
+        Player q = new Player();
+        Player r = new Player();
+        Player s = new Player();
+
+        int[] t = new int[] { 0,1,2,3 };
+
+        for (int i : t) {
+            if (i == 32) {System.out.println("trouvé");}
+        }
+    
+    
+    
+    }
 }

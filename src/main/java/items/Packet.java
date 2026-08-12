@@ -28,7 +28,6 @@ public class Packet {
         }
     }
 
-
     /**
      * Méthode initPremiereCarte - Initialise un packet avec une seule carte
      * [aléatoire], à partir d'un packet
@@ -39,7 +38,6 @@ public class Packet {
         int rand = (int) (general.getSize() * Math.random());
         this.piocher(general.defausser(general.getCardByIndex(rand)));
     }
-
 
     /**
      * Méthode initPioche - Initialise la pioche avec le reste des cartes d'un
@@ -53,16 +51,21 @@ public class Packet {
         }
     }
 
-
     /**
      * Méthode description - Affiche une description du packet, carte par carte
      */
     public void description() {
         for (int i = 0; i < this.getSize(); i++) {
-            System.out.print((i + 1) + " : "); this.pack.get(i).description();
+            this.pack.get(i).description();
         }
     }
 
+    public void descriptionNumerotee() {
+        for (int i = 0; i < this.getSize(); i++) {
+            System.out.print((i + 1) + " : ");
+            this.pack.get(i).description();
+        }
+    }
 
     /**
      * Méthode getSize - Renvoie la taille du packet
@@ -72,7 +75,6 @@ public class Packet {
     public int getSize() {
         return this.pack.size();
     }
-
 
     /**
      * Méthode getCardByIndex - Sélectionne une carte dans le packet, grâce à
@@ -85,7 +87,6 @@ public class Packet {
         return this.pack.get(index);
     }
 
-
     /**
      * Méthode isEmpty - Renvoie TRUE, si le packet est vide (tailleDuPacket =
      * 0)
@@ -95,7 +96,6 @@ public class Packet {
     public boolean isEmpty() {
         return this.getSize() == 0;
     }
-
 
     /**
      * Méthode estDansPack - Renvoie TRUE, si la carte est dans le packet
@@ -107,7 +107,6 @@ public class Packet {
         return this.pack.contains(e);
     }
 
-
     /**
      * Méthode piocher - Pioche une carte sélectionnee
      *
@@ -116,7 +115,6 @@ public class Packet {
     public void piocher(Carte e) {
         this.pack.add(e);
     }
-
 
     /**
      * Méthode piocherDeux - Pioche 2 cartes d'affilé, à partir d'un packet
@@ -131,7 +129,6 @@ public class Packet {
         }
     }
 
-
     /**
      * Méthode piocherCinq - Pioche 5 cartes d'affilé, à partir d'un packet
      *
@@ -144,7 +141,6 @@ public class Packet {
             general.defausser(general.getCardByIndex(rand));
         }
     }
-
 
     /**
      * Méthode initPacket - Initialise un packet de num cartes, à partir d'un
@@ -159,7 +155,6 @@ public class Packet {
             this.piocher(general.defausser(general.getCardByIndex(rand)));
         }
     }
-
 
     /**
      * Méthode defausser - Defausse/Enleve une carte du packet

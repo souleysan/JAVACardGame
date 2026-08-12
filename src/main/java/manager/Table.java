@@ -108,13 +108,18 @@ public class Table {
     }
 
 
+    // public void setTourDeJeu(ArrayList <Player> p) {
+    //     this.joueurs = p;
+    // }
+
+
     public void setNbJoueur(int nbJoueur) {
         this.nbJoueurs = nbJoueur;
     }
 
 
     public void reduceNbJoueur() {
-        this.setNbJoueur(nbJoueurs--);
+        this.setNbJoueur(nbJoueurs - 1);
     }
 
 
