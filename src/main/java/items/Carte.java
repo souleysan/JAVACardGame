@@ -21,7 +21,7 @@ public class Carte {
      */
     Valeur valeur;
     /**
-     * Attribut Valeur de la Classe Carte - Type : Valeur
+     * Attribut Couleur de la Classe Carte - Type : Valeur
      */
     Couleur couleur;
 
@@ -39,7 +39,7 @@ public class Carte {
 
 
     /**
-     * Méthode getValeur - Getter de la Valeur [Classe Carte]
+     * Méthode getValeur - Getter de l'attibut valeur
      *
      * @return laValeurDeLaCarte
      */
@@ -49,7 +49,7 @@ public class Carte {
 
 
     /**
-     * Méthode getCouleur - Getter de la Couleur [Classe Carte]
+     * Méthode getCouleur - Getter de l'attibut couleur
      *
      * @return laCouleurDeLaCarte
      */
@@ -59,8 +59,8 @@ public class Carte {
 
 
     /**
-     * Méthode description - Fournit une description de la carte [ex] --> Je
-     * suis un AS de PIQUE
+     * Méthode description - Fournit une description de la carte 
+     * [ex] --> AS de PIQUE
      */
     void description() {
         System.out.println(this.valeur + " de " + this.couleur);

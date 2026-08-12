@@ -7,32 +7,32 @@ import java.util.Scanner;
 public class Player {
 
     /**
-     * Enumarateur de noms par defaut Nom nomsParDefautPossiblesDansLeJeu
+     * Enumarateur de noms par defaut [nomsParDefautPossiblesDansLeJeu]
      */
     enum Nom {
         PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4
     };
 
     /**
-     * Attribut nom de la Classe Player - Le nom du joueur
+     * Attribut Nom de la Classe Player - Le nom du Player
      */
     Nom nom;
-
     /**
-     * Attribut deck de la Classe Player - Le deck du joueur
+     * Attribut Deck de la Classe Player - Le deck du Player
      */
     Packet deck;
-
     /**
      * Attribut identifiant de la Classe Player (commun à tous les Player du
      * jeu)
      */
     static int identifiant = 0;
-
+    /**
+     * Attribut Id de la Classe Player - (propre à chaque Player)
+     */
     int id;
 
     /**
-     * Constructeur de la Classe Player
+     * [Unique] Constructeur de la Classe Player
      */
     public Player() {
         this.id = this.getIdentifiant();
@@ -43,7 +43,7 @@ public class Player {
 
 
     /**
-     * Méthode description - Affiche une description du joueur
+     * Méthode description - Affiche une description du Player
      */
     public void description() {
         System.out.println(this.getNom() + " __________");
@@ -53,7 +53,7 @@ public class Player {
 
 
     /**
-     * Méthode initPacket - Initialise un deck de num cartes pour le joueur, à
+     * Méthode initPacket - Initialise un deck de num cartes, à
      * partir d'un packet
      *
      * @param general
@@ -65,7 +65,7 @@ public class Player {
 
 
     /**
-     * Méthode getNom - Renvoie le nom du joueur
+     * Méthode getNom - Getter de l'attribut nom
      *
      * @return leNomDuJoueur
      */
@@ -75,7 +75,7 @@ public class Player {
 
 
     /**
-     * Méthode getDeck - Renvoie le deck du joueur
+     * Méthode getDeck - Getter de l'attribut deck
      *
      * @return leDeckDuJoueur
      */
@@ -85,7 +85,7 @@ public class Player {
 
 
     /**
-     * Méthode getPack - Renvoie le packet du deck du joueur
+     * Méthode getPack - Getter du packet de l'attribut deck
      *
      * @return lePackDuDeckDuJoueur
      */
@@ -95,8 +95,7 @@ public class Player {
 
 
     /**
-     * Méthode getIdentifiant - Renvoie l'identifiant (commun à la classe) d'un
-     * joueur
+     * Méthode getIdentifiant - Getter de l'identifiant (commun à la classe)
      *
      * @return lIdentifiantDeLaClasse
      */
@@ -104,13 +103,19 @@ public class Player {
         return Player.identifiant;
     }
 
+
+    /**
+     * Méthode getId - Getter de l'attribut id (unique)
+     * 
+     * @return lIdDuPlayer
+     */
     public int getId() {
         return this.id;
     }
 
 
     /**
-     * Méthode getCardByIndex - Selectionne une carte à partir de son index
+     * Méthode getCardByIndex - Getter d'une carte à partir de son index
      *
      * @param index
      * @return laCarteParLIndex
@@ -121,7 +126,7 @@ public class Player {
 
 
     /**
-     * Méthode piocher - Le joueur pioche une carte
+     * Méthode piocher - Le Player pioche une carte
      *
      * @param e
      */
@@ -131,7 +136,7 @@ public class Player {
 
 
     /**
-     * Méthode piocherDeux - Le joueur pioche 2 cartes
+     * Méthode piocherDeux - Le Player pioche 2 cartes
      *
      * @param general
      */
@@ -141,7 +146,7 @@ public class Player {
 
 
     /**
-     * Méthode piocherCinq - Le joueur pioche 5 cartes
+     * Méthode piocherCinq - Le Player pioche 5 cartes
      *
      * @param general
      */
@@ -151,7 +156,7 @@ public class Player {
 
 
     /**
-     * Méthode poserCarte - Le joueur pose une carte e, sur un autre packet
+     * Méthode poserCarte - Le Player pose une carte e
      *
      * @param table
      * @param e
@@ -161,11 +166,12 @@ public class Player {
     }
 
 
-    public boolean gagant() {
-        return this.deck.pack.isEmpty();
-    }
-
-
+    /**
+     * Méthode checkValueCardChoice - Vérifie la validité d'une carte
+     * 
+     * @param input - L'entrée standard
+     * @return
+     */
     public boolean checkValueCardChoice(int input) {
         Scanner scan = new Scanner(System.in);
         while (input > this.getPack().size() || input < 0) {
@@ -178,19 +184,5 @@ public class Player {
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
 
-    public static void main (String [] args) {
-        Player p = new Player();
-        Player q = new Player();
-        Player r = new Player();
-        Player s = new Player();
 
-        int[] t = new int[] { 0,1,2,3 };
-
-        for (int i : t) {
-            if (i == 32) {System.out.println("trouvé");}
-        }
-    
-    
-    
-    }
 }

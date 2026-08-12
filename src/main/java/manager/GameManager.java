@@ -7,21 +7,53 @@ import player.Player;
 
 public class GameManager {
 
+    /**
+     * Attribut Table de la Classe GameManager
+     */
     Table plateau;
+    /**
+     * Scanner num de la Classe GameManager    
+     */
     Scanner scan1 = new Scanner(System.in);
+    /**
+     * Scanner num de la Classe GameManager    
+     */
     Scanner scan2 = new Scanner(System.in);
+    /**
+     * Scanner num de la Classe GameManager    
+     */
     Scanner scan3 = new Scanner(System.in);
 
+
+    /**
+     * [Unique] Constructeur de la classe GameManager - Initialise les paramètres de la partie
+     */
     public GameManager() {
         int nbJoueurs = this.nombreDeJoueur();
         int nbCartes = this.nombreDeCarte();
         this.plateau = new Table(nbJoueurs, nbCartes);
     }
 
+
+    /**
+     * Méthode getNBJoueurs - àGetter du nombre de Player
+     * 
+     * @return leNombreDePlayer
+     */
     int getNbJoueurs() { return this.getPlateau().getNbJoueurs(); }
 
+
+    /**
+     * Méthode getPlateau - Getter de la table
+     */
     Table getPlateau() { return this.plateau; }
 
+
+    /**
+     * Méthode nombreDeJoueur - Initialise le paramètre du nombree de Player
+     * 
+     * @return nombreDeJoueur;
+     */
     int nombreDeJoueur() { //---------------------------------------------------------------------------------------------GESTION D'ERREUR
         System.out.print("Combien de joueurs (jusqu'à 4) ? ");
         int nombreDeJoueur = this.scan1.nextInt();
@@ -32,9 +64,16 @@ public class GameManager {
             this.nombreDeJoueur();
         }
         */
+
         return nombreDeJoueur;
     }
 
+
+    /**
+     * Méthode nombreDeCarte - Initialise le paramètre du nombree de carte par Player
+     * 
+     * @return nombreDeJoueur;
+     */
     int nombreDeCarte() { //---------------------------------------------------------------------------------------------GESTION D'ERREUR
         System.out.print("Combien de cartes (jusqu'à 10) ? ");
         int nombreDeCartes = this.scan2.nextInt();
@@ -45,29 +84,48 @@ public class GameManager {
             this.nombreDeCartes();
         }
         */
+
         return nombreDeCartes;
     }
 
+
+    /**
+     * Méthode propositions - Affiche les actions possibles pendant la partie
+     * MOVE CLASSE AFFICHAGE !
+     */
     void propositions() {
         System.out.println("Voulez-vous poser une carte ? (tapez 1) ----- PROCESS");
         System.out.println("Voulez-vous piocher une carte (tapez 2) ----- GOOD");
         System.out.println("Voulez-vous abandonner la partie ? (tapez 3) ----- STAND BY");
     }
 
+
+    /** 
+     * Méthode checkValuePropositions - Vérifie la validité de la selection d'une action
+     */
     void checkValuePropositions(int input) {
         while (input > 3 || input < 1) {
             System.out.println("Entree invalide... reesayez");
             input = scan3.nextInt();
         }
-        // return input; // <= 4 && input >= 0;
     }
 
+
+    /**
+     * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans un tableau
+     * 
+     * @return siLIndexSeTrouveDansLeTableau
+     */
     boolean estdansABS(int index, ArrayList <Integer> tab) {
-        for (int i : tab) {
-            if (i == index) { return true; }
-        } return false ;
+        return tab.contains(index);
     }
 
+
+    /**
+     * Méthode compare_Array_to_tab - Renvoie un entier manquant dans la tab
+     * 
+     * @return unEntierManquant
+     */
     int compare_Array_to_tab(ArrayList<Integer> abs) {
         int [] tabIndexPlayer = new int [this.getNbJoueurs()];
         int missing = 0;
@@ -77,60 +135,58 @@ public class GameManager {
         }
 
         for (int i : tabIndexPlayer) {
-            if (!abs.contains(i)) { missing = i; System.out.println(missing); }
+            if (!abs.contains(i)) { missing = i; }
         }
         
         return missing;
     }
 
 
-    void game() { // Subdivision des taches, impérative !
+    /**
+     * Méthode game - Foction qui gère la partie
+     */
+    void game() {
 
-        int rang = 0;
+        int rang = 0;           // Index de selection des Player
+        Player gagnant;         // Playre gagnant
+
         int nbj, input, choice;
-        Player gagnant;
-        ArrayList <Integer> abs = new ArrayList<>(); // Table des bannis
+        ArrayList <Integer> abs = new ArrayList<>();            // Table des abandons
     
 
-        while (abs.size() != this.plateau.getNbJoueurs() - 1) { //this.plateau.resteUnJoueur()) {
+        while (abs.size() != this.plateau.getNbJoueurs() - 1) {         // Condition de fin de partie : Ne reste qu'un Player
 
             System.out.println("_________________________________________________\nnew turn ");
-            this.getPlateau().description(); // -------------------------------------------------------- "La table est composée de..."
+            this.getPlateau().description();
             System.out.println("\n");
 
             nbj = this.plateau.getNbJoueurs();
+            Player current = this.getPlateau().getPlayer(rang % nbj);
+
             Carte lastCard = this.getPlateau().getLastCard();
-            Player current = this.getPlateau().selectPlayer(rang % nbj);
 
 
-
-            while (this.estdansABS(current.getId(), abs)) {
+            while (this.estdansABS(current.getId(), abs)) {         // Condition :  On ne selectionne pas un Player ayant déjà abandonné
                 rang++;
-                current = this.getPlateau().selectPlayer(rang % nbj);
+                current = this.getPlateau().getPlayer(rang % nbj);  // On selectionne le Player suivant
             }
-
 
 
             System.out.println("_________________________________________________\nnew player : ");
             current.description();
                 
             this.propositions();
-            input = scan3.nextInt();
+            input = scan3.nextInt();            // Scanner de selection d'une proposition
 
-            this.checkValuePropositions(input);
+            this.checkValuePropositions(input); // IMBRICAGE WHILE : TANT QUE LE CHECKVALUEPROPOSITION EST FAUX, ON REDEMANDE
             
 
-            // IMBRICAGE WHILE (TANT QUE L'UNE DES VALEURS N'EST PAS CORRECTE)
-            if (input == 1) { // Le joueur pose une carte
+            if (input == 1) {           // Choix 1 : Player pose une carte
 
-
-                // OPTION DE RETOUR AX PROPOSITIONS ------------ OK
                 System.out.println("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1");
-                if (scan3.nextInt() == 0) {
-                    // rang--;
+                if (scan3.nextInt() == 0) {         // Option de retour au menu, avec 0
                     continue;
-                } else if (scan3.nextInt() == 1) {
-                
+                } else if (scan3.nextInt() == 1) {          // Confirmation, avec 1
 
                     System.out.println("Choisissez votre carte (Tapez le numéro de la carte souhaitée) : ");
                     input = scan3.nextInt();
@@ -152,11 +208,9 @@ public class GameManager {
 
                     // break;
                 }
-
             }
             
-            
-            else if (input == 2) {  // OK
+            else if (input == 2) {          // Choix 2 : Player pioche une carte [aléatoire]
 
                 int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
                 current.piocher(this.getPlateau().getPioche().defausser( this.getPlateau().getPioche().getCardByIndex(rand) ));
@@ -164,120 +218,39 @@ public class GameManager {
 
             }
             
-            else if (input == 3) { // Le joueur abandone la partie + CONFIRMATION ----------------------------------------------- OK
+            else if (input == 3) {          // Choix 3 : Player décide d'abandonner
 
-                // OPTION DE RETOUR AX PROPOSITIONS ------------ OK
                 System.out.println("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1");
                 input = scan3.nextInt();
 
-                if (input == 0) { // Retour aux propositions
-                    // rang--; 
+                if (input == 0) {           // Option de retour au menu, avec 0
                     continue;
                 } 
                 
-                else if (input == 1) { // confirmation d'abandon
-
-                    /* Si rang = 3 (donc joueur 4), 
-                       On remove l'acutel et rang = 3 (donc joueur 4 qui est parti)
-                       rang doit etre égal à 2 (pour acceuillie le joueur 3)
-                       ensuite rang++ donc on repasse à joueur 1 dans tous les cas
-                    */// rang = 44%4 == 0 -  1 = -1
-                    
-                    // rang = (rang % this.getNbJoueurs()); continue;
-
-                    // PARTIE DE GÉNIE :
-
-                    // while (rang % this.getNbJoueurs() != (current.getIdentifiant() + 1) % (this.getNbJoueurs() - 1)) { rang++; }
-                    // this.getPlateau().removePlayer(rang - 1);
-
-
+                else if (input == 1) {          // Confirmation, avec 1
                     abs.add(current.getId());
-
-                    
-
-
-
-
-                    /*
-                    if (this.getNbJoueurs() == 2) { //  S'il ne reste que 2 joueur, l'autre gagne par abandon du current.
-                        gagnant = this.getPlateau().selectPlayer(rang + 1);
-                        System.out.print("le grad gagnant : ");
-                        gagnant.description();
-                        break;
-                    }
-                    */
-
-                    // this.getPlateau().removePlayer(rang);
-                    // this.getPlateau().reduceNbJoueur();
-
-
-                    // (rang - 1) % this.getNbJoueurs();
-                    
-                    // JOUEURS  :  J1   J2   J3   J4
-                    // _____________________________________________________
-                    // normal   :   0    1    2    3   % this.nbJoueurs()
-                    // remove1  :   4    5    6   //   % this.nbJoueurs()
-                    // remove1  :   7    8    9   //
-                    // remove1  :   10   11  12   //
-                    // remove2  :   13   14  //   //   % this()
                 }
-
             }
 
 
-            // S'IL NE RESTE QU'UN JOUEUR, IL GAGNE LA PARTIE ! ----------------------------------------------------------------OK
-            if ( abs.size() == this.getNbJoueurs() - 1 /* this.getPlateau().resteUnJoueur() */) {
-                // gagnant = current;
+            // Ajouter condition si deck vide
 
-                // rang++;
-                current = this.getPlateau().selectPlayer( this.compare_Array_to_tab(abs) % nbj);
 
-                gagnant = current; // this.getPlateau().selectPlayer(0);
+            if (abs.size() == this.getNbJoueurs() - 1) {           // Condition : Il ne reste qu'un joueur après l'abandon du Player actuel
+
+                current = this.getPlateau().getPlayer( this.compare_Array_to_tab(abs) % nbj);
+                gagnant = current;
 
                 System.out.println(gagnant.getNom() + ", vous êtes le grand gagnant de la partie");
-                System.out.println("partie condition while 3 - abandon 2222222222222222222222&");
-                // return gagnant;
             }
 
-            System.out.println("on passe à la suite __________________________________  rang++");
-            rang++;
-            System.out.println("________________________________________________________________________");
-
         }
-
-
-
-        // PAS OBLIGATOIRE, SUPPRIMAABLE MÊME (SUITE)
-        // S'IL NE RESTE QU'UN JOUEUR, IL GAGNE LA PARTIE ! ----------------------------------------------------------------OK
-
-        /*
-        if (this.getPlateau().resteUnJoueur()) {
-            // gagnant = this.getPlateau().selectPlayer(0);
-            System.out.println(this.getPlateau().selectPlayer(0).getNom() + ", vous êtes le grand gagnant de la partie");
-
-            System.out.println("partie condition while 3 - abandon 3333333333333333");
-            // return gagnant;
-        }
-        */
     }
 
     public static void main(String[] args) {
 
         GameManager g = new GameManager();
-        // int i = 0;
-        // while (i < g.getNbJoueurs()) { g.getPlateau().selectPlayer(i).description(); System.out.println(g.getPlateau().selectPlayer(i).getIdentifiant()) ; i++; }
-        
-        // ArrayList<Integer> abs = new ArrayList<>();
-        // abs.add(3); abs.add(0); abs.add(2);
-// 
-        // int[] tab = {0, 1, 2, 3};
-        // g.compare_Array_to_tab(abs);
-
         g.game();
 
-
-
-
     }
-
 }

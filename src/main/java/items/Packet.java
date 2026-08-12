@@ -60,6 +60,9 @@ public class Packet {
         }
     }
 
+    /**
+     * Méthode descriptionNumerotee - Affiche une description du packet, numerotant chaque carte de la premiere à la n-ieme
+     */
     public void descriptionNumerotee() {
         for (int i = 0; i < this.getSize(); i++) {
             System.out.print((i + 1) + " : ");
@@ -68,7 +71,7 @@ public class Packet {
     }
 
     /**
-     * Méthode getSize - Renvoie la taille du packet
+     * Méthode getSize - Getter de la taille du packet
      *
      * @return laTailleDuPacket
      */
@@ -77,7 +80,7 @@ public class Packet {
     }
 
     /**
-     * Méthode getCardByIndex - Sélectionne une carte dans le packet, grâce à
+     * Méthode getCardByIndex - Getter d'une carte dans le packet, grâce à
      * son index
      *
      * @param index
@@ -88,8 +91,7 @@ public class Packet {
     }
 
     /**
-     * Méthode isEmpty - Renvoie TRUE, si le packet est vide (tailleDuPacket =
-     * 0)
+     * Méthode isEmpty - Renvoie TRUE, si le packet est vide
      *
      * @return siLePacketEstVide
      */
