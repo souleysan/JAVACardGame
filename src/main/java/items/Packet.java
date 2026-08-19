@@ -96,7 +96,7 @@ public class Packet {
      * @return siLePacketEstVide
      */
     public boolean isEmpty() {
-        return this.getSize() == 0;
+        return this.pack.isEmpty();
     }
 
     /**
@@ -165,9 +165,8 @@ public class Packet {
      * @return laCarteDefaussee
      */
     public Carte defausser(Carte e) {
-        Carte def = new Carte(e.getValeur(), e.getCouleur());
+        //Carte def = new Carte(e.getValeur(), e.getCouleur());
         this.pack.remove(e);
-        return def;
+        return e;
     }
-
 }

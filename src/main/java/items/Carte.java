@@ -62,7 +62,7 @@ public class Carte {
      * Méthode description - Fournit une description de la carte 
      * [ex] --> AS de PIQUE
      */
-    void description() {
+    public void description() {
         System.out.println(this.valeur + " de " + this.couleur);
     }
 
@@ -138,8 +138,9 @@ public class Carte {
      * @param Carte e
      * @return siValeurEtCouleurSontIdentiques
      */
-    public boolean compareTotal(Carte e) {
+    /* public boolean compareTotal(Carte e) {
         return this.compareValeur(e) && this.compareCouleur(e);
     }
+    */
 
 }

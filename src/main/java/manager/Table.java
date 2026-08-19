@@ -87,7 +87,7 @@ public class Table {
             this.joueurs.get(i).description(); System.out.println();
         }
         // this.getJeu().description();
-        System.out.print("Voici le jeu : "); this.jeu.description();
+        System.out.print("Voici le jeu : "); this.getLastCard().description();
     }
 
 
@@ -133,5 +133,4 @@ public class Table {
     public Carte getLastCard() {
         return this.getJeu().getCardByIndex(this.getJeu().pack.size() - 1);
     }
-
 }

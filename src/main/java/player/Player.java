@@ -64,6 +64,11 @@ public class Player {
     }
 
 
+    public boolean deckEmpty() {
+        return this.getDeck().isEmpty();
+    }
+
+
     /**
      * Méthode getNom - Getter de l'attribut nom
      *
@@ -162,7 +167,7 @@ public class Player {
      * @param e
      */
     public void poserCarte(Packet table, int e) {
-        table.piocher(this.getCardByIndex(e));
+        table.piocher(this.getDeck().defausser(this.getCardByIndex(e)));
     }
 
 
@@ -170,19 +175,23 @@ public class Player {
      * Méthode checkValueCardChoice - Vérifie la validité d'une carte
      * 
      * @param input - L'entrée standard
-     * @return
+     * @return correctSelectedCard
      */
     public boolean checkValueCardChoice(int input) {
-        Scanner scan = new Scanner(System.in);
+        /*Scanner scan = new Scanner(System.in);
         while (input > this.getPack().size() || input < 0) {
-            System.out.println("Carte non selectionnable, choisis-en une autre");
-            this.checkValueCardChoice(scan.nextInt());
-        } return true;
+            System.out.print("Carte non selectionnable, choisis-en une autre : ");
+            input = scan.nextInt();
+        }
+        scan.close();
+        return true;
+        */
+
+        return !(input > this.getPack().size() || input < 0);
     }
 
-    
+
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
-
 
 }
