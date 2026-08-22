@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import player.Player;
 
-
 public class GameManager {
 
     /**
      * Attribut Table de la Classe GameManager
      */
     Table plateau;
+   
     /**
      * Scanner num de la Classe GameManager
      */
@@ -48,11 +48,10 @@ public class GameManager {
      *
      * @return nombreDeJoueur;
      */
-    int parameterNumber(String parameter) { //---------------------------------------------------------------------------------------------GESTION D'ERREUR
+    int parameterNumber(String parameter) {
         int parameterNumber;
 
         // CONTROLE INPUT, SI J'ENTRE AUTRE QU'UN ENTIER
-
         switch (parameter) {
 
             case "joueurs" -> {
@@ -91,15 +90,16 @@ public class GameManager {
                 break;
             }
 
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
         return parameterNumber;
 
     }
 
     /**
-     * Méthode propositions - Affiche les actions possibles pendant la
-     * partie MOVE CLASSE AFFICHAGE !
+     * Méthode propositions - Affiche les actions possibles pendant la partie
+     * MOVE CLASSE AFFICHAGE !
      */
     void propositions() {
         System.out.println("Voulez-vous poser une carte ? (tapez 1) ----- PROCESS");
@@ -122,8 +122,8 @@ public class GameManager {
     }
 
     /**
-     * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans
-     * un tableau
+     * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans un
+     * tableau
      *
      * @return siLIndexSeTrouveDansLeTableau
      */
@@ -159,7 +159,7 @@ public class GameManager {
     Player game() {
 
         int rang = 0;           // Index de selection des Player
-        int input, choice = -1;
+        int input, choice;
         int nbj = this.plateau.getNbJoueurs();
 
         Player current = this.getPlateau().getPlayer(rang % nbj);           // Player actuel
@@ -175,6 +175,7 @@ public class GameManager {
 
             current = this.getPlateau().getPlayer(rang % nbj);
             lastCard = this.getPlateau().getLastCard();
+            choice = -1;
 
             while (this.estdansABS(current.getId(), abs)) {         // Condition :  On ne selectionne pas un Player ayant déjà abandonné
                 rang++;
@@ -205,7 +206,7 @@ public class GameManager {
                 switch (input) {
                     case 1 -> {          // Choix 1 : Player veut poser une carte
                         System.out.print("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1 : ");
-                        
+
                         if (scan1.hasNextInt()) {
                             input = scan1.nextInt();
                             if (input == 0) {
@@ -220,23 +221,28 @@ public class GameManager {
                                     input = scan1.nextInt();
                                     // choice =+ input;
                                 }
-                                switch (input) {
-                                    case 0 -> {         // Player pioche une carte, car il s'est trompé de choix
-                                        int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
-                                        current.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
-                                        break;
-                                    }
-                                    case 11 -> {            // Player abandonne la partie
-                                        abs.add(current.getId());
-                                        if (abs.size() == this.plateau.getNbJoueurs() - 1) {
-                                            current = this.getPlateau().getPlayer((rang + 1) % nbj);
-                                            gagnant = current;
-                                            return gagnant;
+                                if (input == 0 || input == 11) {
+                                    switch (input) {
+                                        case 0 -> {         // Player pioche une carte, car il s'est trompé de choix
+                                            int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
+                                            current.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+                                            break;
                                         }
-                                    }
+                                        case 11 -> {            // Player abandonne la partie
+                                            abs.add(current.getId());
+                                            if (abs.size() == this.plateau.getNbJoueurs() - 1) {
+                                                current = this.getPlateau().getPlayer((rang + 1) % nbj);
+                                                gagnant = current;
+                                                return gagnant;
+                                            }
+                                        }
 
-                                    //default -> {  }
-                                } //break;
+                                        //default -> {rang--;}
+                                    }
+                                    break;
+                                
+                                                                                                                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                } // else { scan1.next(); continue; }
                             }
 
                             choice += input;
@@ -245,25 +251,25 @@ public class GameManager {
                                     || !(current.getDeck().getCardByIndex(choice).compareCouleur(lastCard)
                                     || current.getDeck().getCardByIndex(choice).compareValeur(lastCard))) {
 
-                                System.out.print("Carte non valide, choisissez-en une autre, tapez 11 pour piocher ou 12 pour abandonner la partie : ");
+                                System.out.print("Carte non valide, choisissez-en une autre, tapez 0 pour piocher ou 11 pour abandonner la partie : ");
 
                                 if (scan1.hasNextInt()) {
                                     input = scan1.nextInt();
-                                    choice = input - 1;
 
                                 } else {
                                     scan1.next();
                                     System.out.println("Entrez un entier valide... ");
-                                    input = scan1.nextInt();
+                                    continue; //input = scan1.nextInt();
                                 }
 
-                                if (!current.checkValueCardChoice(choice)) {
+                                if (input == 11 || input == 12) {
 
                                     switch (input) {
+
                                         case 11 -> {           // Option de pioche après erreur de selection de carte
                                             int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
                                             current.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
-                                            break;
+                                            //break;
                                         }
                                         case 12 -> {           // Option d'abandon, après erreur de selection de carte
                                             abs.add(current.getId());
@@ -271,27 +277,31 @@ public class GameManager {
                                                 current = this.getPlateau().getPlayer((rang + 1) % nbj);
                                                 gagnant = current;
                                                 return gagnant;
-
                                             }
-                                            break;
                                         }
-                                        /*default -> {
-                                        choice = input - 1;
-                                        current.poserCarte(this.plateau.getJeu(), choice);
-                                        break;*/
-                                    }
+                                    } break;
+                                } else {
+                                    choice = input - 1;
                                 }
-                                break;
+
                             }
+
+                                                                                                                                ///////////////////////////////////////////////////////////////////////////////
+                        } else {
+                            scan1.next();
+                            System.out.println("Entrez un entier valide...");
+                            continue;
                         }
 
-                        // POSER CARTE
-                        current.poserCarte(this.getPlateau().getJeu(), choice);
+                        if (input != 11) {
 
-                        if (current.deckEmpty()) {          // Condition player gagnant
-                            gagnant = current;
-                            System.out.println("CC0______________________________");
-                            return gagnant;
+                            current.poserCarte(this.getPlateau().getJeu(), choice);
+
+                            if (current.deckEmpty()) {          // Condition player gagnant
+                                gagnant = current;
+                                System.out.println("CC0______________________________");
+                                return gagnant;
+                            }
                         }
 
                         break;
@@ -305,13 +315,22 @@ public class GameManager {
 
                     case 3 -> {         // Choix 3 : Player décide d'abandonner la partie
                         System.out.println("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1");
-                        input = scan1.nextInt();
+                        if (scan1.hasNextInt()) {
+                            input = scan1.nextInt();
+                        } else {
+                                                                                                                                ///////////////////////////////////////////////////////
+                            scan1.next();
+                            System.out.println("Entrez un entier valide...");
+                            continue;
+                        }
 
-                        if (input == 0) { continue; } // Option de retour au menu, avec 0
+                        if (input == 0) {
+                            continue;
+                        } // Option de retour au menu, avec 0
                         else if (input == 1) {
                             abs.add(current.getId());
                             if (abs.size() == this.plateau.getNbJoueurs() - 1) {
-                                current = this.getPlateau().getPlayer((rang  + 1)% nbj);
+                                current = this.getPlateau().getPlayer((rang + 1) % nbj);
                                 gagnant = current;
                                 return gagnant;
                             }
@@ -319,7 +338,7 @@ public class GameManager {
                     }
 
                     default -> {            // Par default, si une proposition n'est pas correcte, le joueur resaisie
-                        scan1.next();
+                        //scan1.next();
                         System.out.println("Veuillez entrer une proposition valide...");
                         rang--;
                     }
@@ -328,8 +347,7 @@ public class GameManager {
                 System.out.print("\033[2J\033[H");          // efface, PUIS remonte le curseur
                 System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
             } else {
-
-                scan1.next();
+                //scan1.next();
                 rang--;
                 System.out.print("\033[2J\033[H");          // efface, PUIS remonte le curseur
                 System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
@@ -351,13 +369,14 @@ public class GameManager {
         }
 
         // System.out.println(current.getNom() + ", vous etes le grand gagnant ! félicitations");
-        System.out.print (
+        System.out.print(
+                "\033[2J\033[H");          // efface, PUIS remonte le curseur
+        System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
 
-        "\033[2J\033[H");          // efface, PUIS remonte le curseur
-        System.out.flush ();         // Force la remontée, par l'envoie de la sequence precedante
-
-    return current;
+        return current;
     }
+
+    Player game_final() { return new Player(); }
 
     public static void main(String[] args) {
 
@@ -365,4 +384,3 @@ public class GameManager {
         System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
     }
 }
-    
