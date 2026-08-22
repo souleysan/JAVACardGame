@@ -11,7 +11,6 @@ public class GameManager {
      * Attribut Table de la Classe GameManager
      */
     Table plateau;
-   
     /**
      * Scanner num de la Classe GameManager
      */
@@ -27,6 +26,7 @@ public class GameManager {
         this.plateau = new Table(nbJoueurs, nbCartes);
     }
 
+
     /**
      * Méthode getNBJoueurs - àGetter du nombre de Player
      *
@@ -36,19 +36,23 @@ public class GameManager {
         return this.getPlateau().getNbJoueurs();
     }
 
+
     /**
      * Méthode getPlateau - Getter de la table
+     * 
+     * @return lePlateauDeLaPartie
      */
     Table getPlateau() {
         return this.plateau;
     }
 
+
     /**
-     * Méthode nombreDeJoueur - Initialise le paramètre du nombree de Player
+     * Méthode nombreDeJoueur - Initialise un paramètre du nombre de Player/Carte
      *
-     * @return nombreDeJoueur;
+     * @return nombreDeJoueur/nombreDeCartes;
      */
-    int parameterNumber(String parameter) {
+    final int parameterNumber(String parameter) {
         int parameterNumber;
 
         // CONTROLE INPUT, SI J'ENTRE AUTRE QU'UN ENTIER
@@ -97,29 +101,28 @@ public class GameManager {
 
     }
 
+
     /**
      * Méthode propositions - Affiche les actions possibles pendant la partie
-     * MOVE CLASSE AFFICHAGE !
      */
-    void propositions() {
-        System.out.println("Voulez-vous poser une carte ? (tapez 1) ----- PROCESS");
+    void propositions() { // MOOVE CLASS AFFICHAGE
+        System.out.println("Voulez-vous poser une carte ? (tapez 1) ----- GOOD");
         System.out.println("Voulez-vous piocher une carte (tapez 2) ----- GOOD");
-        System.out.println("Voulez-vous abandonner la partie ? (tapez 3) ----- PROCESS\n");
+        System.out.println("Voulez-vous abandonner la partie ? (tapez 3) ----- GOOD\n");
         System.out.print("Votre choix : ");
     }
+
 
     /**
      * Méthode checkValuePropositions - Vérifie la validité de la selection
      * d'une action
+     * 
+     * @return siLaPropositionEstValable
      */
     boolean checkValuePropositions(int input) {
-        return !(input > 3 || input < 1); // ? false : true;
-        // while (input > 3 || input < 1) {
-        //     System.out.println("Entree invalide... reesayez");
-        //     input = scan1.nextInt();
-        // }
-        // return true;
+        return !(input > 3 || input < 1);
     }
+
 
     /**
      * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans un
@@ -130,6 +133,7 @@ public class GameManager {
     boolean estdansABS(int index, ArrayList<Integer> tab) {
         return tab.contains(index);
     }
+
 
     /**
      * Méthode compare_Array_to_tab - Renvoie un entier manquant dans la tab
@@ -152,6 +156,7 @@ public class GameManager {
 
         return missing;
     }
+
 
     /**
      * Méthode game - Fonction qui gère la partie
@@ -202,7 +207,6 @@ public class GameManager {
 
             if (this.checkValuePropositions(input)) {
 
-                // IMBRICAGE WHILE : TANT QUE LE CHECKVALUEPROPOSITION EST FAUX, ON REDEMANDE
                 switch (input) {
                     case 1 -> {          // Choix 1 : Player veut poser une carte
                         System.out.print("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1 : ");
@@ -236,13 +240,8 @@ public class GameManager {
                                                 return gagnant;
                                             }
                                         }
-
-                                        //default -> {rang--;}
-                                    }
-                                    break;
-                                
-                                                                                                                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                } // else { scan1.next(); continue; }
+                                    } break;
+                                }
                             }
 
                             choice += input;
@@ -259,7 +258,7 @@ public class GameManager {
                                 } else {
                                     scan1.next();
                                     System.out.println("Entrez un entier valide... ");
-                                    continue; //input = scan1.nextInt();
+                                    continue;
                                 }
 
                                 if (input == 11 || input == 12) {
@@ -269,7 +268,6 @@ public class GameManager {
                                         case 11 -> {           // Option de pioche après erreur de selection de carte
                                             int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
                                             current.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
-                                            //break;
                                         }
                                         case 12 -> {           // Option d'abandon, après erreur de selection de carte
                                             abs.add(current.getId());
@@ -280,13 +278,8 @@ public class GameManager {
                                             }
                                         }
                                     } break;
-                                } else {
-                                    choice = input - 1;
-                                }
-
+                                } else { choice = input - 1; }
                             }
-
-                                                                                                                                ///////////////////////////////////////////////////////////////////////////////
                         } else {
                             scan1.next();
                             System.out.println("Entrez un entier valide...");
@@ -318,59 +311,43 @@ public class GameManager {
                         if (scan1.hasNextInt()) {
                             input = scan1.nextInt();
                         } else {
-                                                                                                                                ///////////////////////////////////////////////////////
                             scan1.next();
                             System.out.println("Entrez un entier valide...");
                             continue;
                         }
 
-                        if (input == 0) {
-                            continue;
-                        } // Option de retour au menu, avec 0
-                        else if (input == 1) {
+                        if (input == 0) { continue; } // Option de retour au menu, avec 0
+                        else if (input == 1) { // Confirmation, avec 1
                             abs.add(current.getId());
                             if (abs.size() == this.plateau.getNbJoueurs() - 1) {
                                 current = this.getPlateau().getPlayer((rang + 1) % nbj);
                                 gagnant = current;
                                 return gagnant;
                             }
-                        }          // Confirmation, avec 1
+                        }
                     }
 
                     default -> {            // Par default, si une proposition n'est pas correcte, le joueur resaisie
-                        //scan1.next();
                         System.out.println("Veuillez entrer une proposition valide...");
                         rang--;
                     }
                 }
 
-                System.out.print("\033[2J\033[H");          // efface, PUIS remonte le curseur
+                System.out.print("\033[2J\033[H");          // efface, puis remonte le curseur
                 System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
             } else {
-                //scan1.next();
                 rang--;
                 System.out.print("\033[2J\033[H");          // efface, PUIS remonte le curseur
                 System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
                 System.out.println("\n\n\n\nProposition invalide, entrez un choix correct...");
             }
 
-            /* if (abs.size() == this.getNbJoueurs() - 1) {           // Condition de victoire : Il ne reste qu'un joueur après l'abandon du Player actuel
-
-                current = this.getPlateau().getPlayer(this.compare_Array_to_tab(abs) % nbj);
-                gagnant = current;
-
-                System.out.println(gagnant.getNom() + ", vous êtes le grand gagnant de la partie");
-                return current;
-
-            } */
             rang++;
             System.out.print("\033[2J\033[H"); // efface, PUIS remonte le curseur
             System.out.flush();         // Player prec = this.getPlateau().getPlayer((rang - 1) % nbj);;
         }
 
-        // System.out.println(current.getNom() + ", vous etes le grand gagnant ! félicitations");
-        System.out.print(
-                "\033[2J\033[H");          // efface, PUIS remonte le curseur
+        System.out.print("\033[2J\033[H");          // efface, PUIS remonte le curseur
         System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
 
         return current;

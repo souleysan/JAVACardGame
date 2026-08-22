@@ -63,7 +63,13 @@ public class Carte {
      * [ex] --> AS de PIQUE
      */
     public void description() {
-        System.out.println(this.valeur + " de " + this.couleur);
+        System.out.println(this.getValeur() + " de ");
+        switch (this.getCouleur()) {
+            case CARREAUX -> System.out.println("♦️");
+            case COEUR -> System.out.println("♥️");
+            case PIQUE -> System.out.println("♠️");
+            case TREFLE -> System.out.println("♣️");
+        }
     }
 
 
@@ -129,18 +135,4 @@ public class Carte {
     public boolean compareCouleur(Carte e) {
         return this.couleur == e.couleur;
     }
-
-
-    /**
-     * Méthode compareTotal - Renvoie TRUE, si les valeur et couleur de la carte
-     * mère et cible sont les mêmes
-     *
-     * @param Carte e
-     * @return siValeurEtCouleurSontIdentiques
-     */
-    /* public boolean compareTotal(Carte e) {
-        return this.compareValeur(e) && this.compareCouleur(e);
-    }
-    */
-
 }

@@ -2,7 +2,6 @@ package player;
 
 import items.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Player {
 
@@ -29,14 +28,14 @@ public class Player {
     /**
      * Attribut Id de la Classe Player - (propre à chaque Player)
      */
-    int id;
+    private int id;
 
     /**
      * [Unique] Constructeur de la Classe Player
      */
     public Player() {
-        this.id = this.getIdentifiant();
-        this.nom = Player.Nom.values()[this.getIdentifiant()];
+        this.id = Player.identifiant;
+        this.nom = Player.Nom.values()[this.getId()];
         this.deck = new Packet();
         Player.identifiant++;
     }
@@ -64,6 +63,10 @@ public class Player {
     }
 
 
+    /**
+     * Méthode deckEmpty - Verifie le remplissage nul du packet
+     * @return siLePacketEstVide
+     */
     public boolean deckEmpty() {
         return this.getDeck().isEmpty();
     }
@@ -178,15 +181,6 @@ public class Player {
      * @return correctSelectedCard
      */
     public boolean checkValueCardChoice(int input) {
-        /*Scanner scan = new Scanner(System.in);
-        while (input > this.getPack().size() || input < 0) {
-            System.out.print("Carte non selectionnable, choisis-en une autre : ");
-            input = scan.nextInt();
-        }
-        scan.close();
-        return true;
-        */
-
         return !(input > this.getPack().size() || input < 0);
     }
 

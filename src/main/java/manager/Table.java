@@ -19,7 +19,6 @@ public class Table {
      */
     int nbJoueurs;
 
-
     /**
      * [Unique] Constructeur de la Classe Table Initialise le jeu, la pioche,
      * les joueurs et la 1ere carte [de table] de la partie
@@ -85,14 +84,14 @@ public class Table {
         System.out.println("\n\nLa table est compsosée de : " + this.getNbJoueurs() + " valeureux joueurs\n\n");
         for (int i = 0; i < this.joueurs.size(); i++) {
             this.joueurs.get(i).description(); System.out.println();
-        }
-        // this.getJeu().description();
-        System.out.print("Voici le jeu : "); this.getLastCard().description();
+        } System.out.print("Voici le jeu : "); this.getLastCard().description();
     }
 
 
     /**
      * Méthode getNbJoueurs - Getter du nombre de Player
+     * 
+     * @return leNombreDeJoueur
      */
     public int getNbJoueurs() {
         return this.nbJoueurs;
@@ -101,6 +100,8 @@ public class Table {
 
     /**
      * Méthode getJeu - Getter du jeu [packet complet]
+     * 
+     * @return lePacketDeJeuActuel
      */
     public Packet getJeu() {
         return this.jeu;
@@ -109,6 +110,8 @@ public class Table {
 
     /**
      * Méthode getPioche - Getter de la pioche
+     * 
+     * @return laPioche
      */
     public Packet getPioche() {
         return this.pioche;
@@ -117,8 +120,9 @@ public class Table {
 
     /**
      * Méthode getPlayer - Getter d'un Player
+     * 
      * @param index
-     * @return
+     * @return leJoueurALIndexIndex
      */
     public Player getPlayer(int index) {
         return this.joueurs.get(index);
