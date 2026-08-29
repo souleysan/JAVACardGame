@@ -63,7 +63,7 @@ public class Carte {
      * [ex] --> AS de PIQUE
      */
     public void description() {
-        System.out.println(this.getValeur() + " de ");
+        System.out.print(this.getValeur() + " de ");
         switch (this.getCouleur()) {
             case CARREAUX -> System.out.println("♦️");
             case COEUR -> System.out.println("♥️");
