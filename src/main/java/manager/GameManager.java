@@ -11,6 +11,8 @@ public class GameManager {
      * Attribut Table de la Classe GameManager
      */
     Table plateau;
+
+
     /**
      * Scanner num de la Classe GameManager
      */
@@ -343,13 +345,80 @@ public class GameManager {
 
 
 
-    Player game_final() {           // Refonte de game, qui est un vrai casse-tête
-        return new Player();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private enum State {CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU, DONE}
+
+
+    public PrintManager getPM() { return this.printManager; }
+
+    static ArrayList<Integer> abs = new ArrayList<>();            // Table des abandons
+
+    void addToAbs(int player_id) { this.getAbs().add(player_id); }
+
+    ArrayList <Integer> getAbs() { return this.abs; }
+
+
+
+
+    State action(Player player_targeted) {
+
+        int input = this.printManager.checkInput(1, "Entrez votre choix : ");
+
+        if (input == 0) { return State.RETOUR_MENU; }
+        else if (input == 10) { return State.A_ABANDONNE; }
+
+        switch (input) {
+            case 1 : return State.CARTE_POSEE;
+            case 2 : return State.A_PIOCHER;
+            case 3 : return State.A_ABANDONNE;
+            default : return State.DONE;
+        }
     }
 
+
+
+    void piocher(Player player_targeted) {
+        int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
+        player_targeted.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+    }
+
+
+
+
+    void action2(Player player_targeted) {
+
+        switch(action(      new Player()        )) {
+            case State.RETOUR_MENU -> {
+                /* ON_REVIENT */
+                continue;
+            }
+
+            case State.CARTE_POSEE -> {
+                /* POSER_LA_CARTE */
+                break;
+            }
+
+            case State.A_PIOCHE -> {
+                /* PIOCHER_LA_CARTE */ this.piocher(player_targeted);
+            }
+
+            case State.A_ABANDONE -> {
+                /* ABANDON */ addToAbs(player_targeted);
+            }
+
+            default -> { continue; }
+        }
+    }
+
+
+
+    Player game_2() {           // Refonte de game, qui est un vrai casse-tête
+        return new Player();
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
 
-        GameManager g = new GameManager();
-        System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
+        // GameManager g = new GameManager();
+        // System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
     }
 }

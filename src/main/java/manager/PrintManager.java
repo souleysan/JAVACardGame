@@ -22,14 +22,14 @@ public class PrintManager {
     }
 
 
-    public int checkInput(int i, String prompt) {
-        System.out.println(prompt);
+    public int checkInput(int errorId, String prompt) {
+        System.out.println(prompt  /* Méthode str pour renvoyer du texte */);
         while (!this.scan.hasNextInt()) {
             scan.next();
-            this.printError(5);
-            this.printError(0);
+            System.out.println(this.printError2(5));
+            System.out.println(this.printError2(errorId));
         } return scan.nextInt();
-    }
+    }       // Méthode 1
 
 
     public void lineJump(int lineJumped) {
@@ -44,15 +44,29 @@ public class PrintManager {
     }
 
 
-    public void printError(int choice) {
+    public void printError(int errorIdentification) {
 
-        switch (choice) {            
+        switch (errorIdentification) {            
             case 1 -> { System.out.println("\n\nProposition invalide, entrez un choix correct...\n"); break; }
             case 2 -> { System.out.print("Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1 : "); break; }
             case 3 -> { System.out.print("\nChoisissez votre carte\n 0, si tu veux piocher parce que tu t'es trompé ou 11 pour abandonner : "); break; }
             case 4 -> { System.out.print("Carte non valide, choisissez-en une autre, tapez 0 pour piocher ou 11 pour abandonner la partie : "); break; }
             case 5 -> { System.out.println("Entrez un entier valide... "); break; }
             default -> { }
+        }
+    }
+
+
+
+    public String printError2(int errorIdentificationchoice) {
+
+        switch (errorIdentificationchoice) {            
+            case 1 : return "\n\nProposition invalide, entrez un choix correct...\n";
+            case 2 : return "Pour revenir au menu, tapez [le chiffre] 0, sinon tapez 1 : ";
+            case 3 : return "\nChoisissez votre carte\n 0, si tu veux piocher parce que tu t'es trompé ou 11 pour abandonner : ";
+            case 4 : return "Carte non valide, choisissez-en une autre, tapez 0 pour piocher ou 11 pour abandonner la partie : ";
+            case 5 : return "Entrez un entier valide... ";
+            default : return "";
         }
     }
 
