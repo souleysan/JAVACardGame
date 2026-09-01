@@ -1,4 +1,4 @@
-package items;
+package com.sousou.items;
 
 import java.util.ArrayList;
 

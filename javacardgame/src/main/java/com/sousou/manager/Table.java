@@ -1,8 +1,10 @@
-package manager;
+package com.sousou.manager;
 
-import items.*;
 import java.util.ArrayList;
-import player.*;
+
+import com.sousou.items.Carte;
+import com.sousou.items.Packet;
+import com.sousou.player.Player;
 
 public class Table {
 

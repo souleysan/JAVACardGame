@@ -1,7 +1,9 @@
-package player;
+package com.sousou.player;
 
-import items.*;
 import java.util.ArrayList;
+
+import com.sousou.items.Carte;
+import com.sousou.items.Packet;
 
 public class Player {
 

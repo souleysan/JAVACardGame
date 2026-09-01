@@ -1,9 +1,9 @@
-package manager;
+package com.sousou.manager;
 
-import items.*;
+import com.sousou.items.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import player.Player;
+import com.sousou.player.Player;
 
 public class GameManager {
 
@@ -161,7 +161,7 @@ public class GameManager {
     /**
      * Méthode game - Fonction qui gère la partie
      */
-    Player game() {
+    public Player game() {
 
         int rang = 0;           // Index de selection des Player
         int input, choice;
@@ -355,9 +355,10 @@ public class GameManager {
 
     Player game_final() { return new Player(); }
 
-    public static void main(String[] args) {
-
-        GameManager g = new GameManager();
-        System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
-    }
+    /*
+        public static void main(String[] args) {
+            GameManager g = new GameManager();
+            System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
+        }
+    */
 }
