@@ -1,10 +1,1 @@
-items/Packet.class
-items/Carte$Valeur.class
-player/Player$Nom.class
-items/Carte.class
 com/sousou/Main.class
-com/sousou/App.class
-manager/GameManager.class
-manager/Table.class
-player/Player.class
-items/Carte$Couleur.class
