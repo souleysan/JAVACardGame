@@ -137,6 +137,12 @@ public class Carte {
     }
 
 
+    /**
+     * Méthode association - Vérifie la compatibilité complete entre 2 cartes
+     * 
+     * @param e
+     * @return laCompatibiliteEntre2Cartes
+     */
     public boolean association(Carte e) {
         return (this.compareCouleur(e) || this.compareValeur(e) || e.estHuit());
     }

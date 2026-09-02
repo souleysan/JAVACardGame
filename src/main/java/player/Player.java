@@ -10,7 +10,7 @@ public class Player {
     /**
      * Enumarateur de noms par defaut [nomsParDefautPossiblesDansLeJeu]
      */
-    enum Nom {
+    public enum Nom {
         PLAYER_1, PLAYER_2, PLAYER_3, PLAYER_4
     };
 
@@ -31,7 +31,9 @@ public class Player {
      * Attribut Id de la Classe Player - (propre à chaque Player)
      */
     private int id;
-
+    /**
+     * Attribut win de la Classe Player - True, si ce joueur est le gagnant
+     */
     boolean win;
 
     /**
@@ -137,11 +139,19 @@ public class Player {
     }
 
 
+    /**
+     * Méthode getWin - Getter de l'état de victoire d'un joueur
+     * 
+     * @return siLeJoueurEstGagnant
+     */
     public boolean getWin() {
         return this.win;
     }
 
 
+    /**
+     * Méthode setWin - Setter de l'état de victoire d'un joueur
+     */
     public void setWin() {
         this.win = true;
     }

@@ -13,14 +13,13 @@ public class GameManager {
      * Attribut Table de la Classe GameManager
      */
     Table plateau;
-
-
     /**
-     * Scanner num de la Classe GameManager
+     * Attribut scan1 de la Classe GameManager
      */
     Scanner scan1 = new Scanner(System.in);
-
-
+    /**
+     * Attribut printManager de la Classe GameManager
+     */
     PrintManager printManager;
 
     /**
@@ -133,7 +132,8 @@ public class GameManager {
 
 
     /**
-     * Méthode compare_Array - Renvoie un entier manquant dans la tab // l'id du joueur manquant dans la table des abandons
+     * Méthode compare_Array - Renvoie l'id du joueur manquant dans la table des abandons
+     * Le seul n'ayant pas abandonné
      *
      * @return unEntierManquant
      */
@@ -346,55 +346,128 @@ public class GameManager {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Enumerateur d'etat de la Classe GameManager
+     */
     static enum State {CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
 
+    /**
+     * Methode getPM - Getter de l'attribut printManager
+     * 
+     * @return printManager
+     */
     public PrintManager getPM() { return this.printManager; }
 
+    /**
+     * Attribut abs de la Classe GameManager - Le tableau des abandons
+     */
     static ArrayList<Integer> abs = new ArrayList<>();
 
+    /**
+     * Methode addToAbs - Ajoute le joueur cible à la table des abandons
+     * 
+     * @param player_targeted
+     */
     void addToAbs(Player player_targeted) { this.getAbs().add(player_targeted.getId()); }
 
+    /**
+     * Methode getAbs - Renvoie la table des abandons
+     * 
+     * @return laTableDesAbandons
+     */
     ArrayList <Integer> getAbs() { return GameManager.abs; }
 
+    /**
+     * Attribut game_rang de la Classe GameManager
+     */
     int game_rang = 0;
 
+    /**
+     * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
+     */
     boolean check_choice2(Player player_targeted, int input) {
         return player_targeted.checkValueCardChoice(input);
     }
 
+    /**
+     * Methode piocher - Permet à un joueur de piocher
+     */
     void piocher(Player player_targeted) {
         int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
         player_targeted.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
     }
 
+    /**
+     * Methode poser_carte - Permet à un joueur de poser une carte
+     * 
+     * @param player_targeted
+     * @param card_id
+     */
     void poser_carte(Player player_targeted, int card_id) {
         player_targeted.poserCarte(this.getJeu(), card_id);
     }
 
+    /**
+     * Methode getLastCard - Renvoie la derniere carte de la table
+     * 
+     * @return laDerniereCarteDeLaTable
+     */
     Carte getLastCard() {
         return this.getPlateau().getLastCard();
     }
 
+    /**
+     * Methode getJeu - Renvoie le deck de jeu de la partie
+     * 
+     * @return leDeckDeJeuDeLaPartie
+     */
     Packet getJeu() {
         return this.getPlateau().getJeu();
     }
 
+    /**
+     * Methode deckEmpty - Renvoie le remplissage du deck du joueur cible
+     * 
+     * @return siLeDeckEstVide
+     */
     boolean deckEmpty(Player player_targeted) {
         return player_targeted.deckEmpty();
     }
 
+    /**
+     * Methode dernier_joueur - Renvoie s'il ne reste qu'un joueur dans la partie
+     * 
+     * @return sIlNeResteQuUnJoueur
+     */
     boolean dernier_joueur() {
         return this.getAbs().size() == this.getNbJoueurs() - 1;
     }
 
+    /**
+     * Methode getJoueur - Renvoie un joueur cible
+     * 
+     * @param player_id
+     * 
+     * @return unJoueurCible
+     */
     public Player getJoueur(int player_id) {
         return this.getPlateau().getPlayer(player_id);
     }
 
+    /**
+     * Methode getPlayer_list - Renvoie la liste des joueurs de la partie
+     * 
+     * @return laListeDesJoueursDeLaPartie
+     */
     ArrayList <Player> getPlayer_list() {
         return getPlateau().getPlayerList();
     }
 
+    /**
+     * Methode winner_here - Renvoie si un joueur possede l'etat de gagant
+     * 
+     * @return etatDeVictoireDUnJoueur
+     */
     boolean winner_here() {
         for (Player p : this.getPlayer_list()) {
             if (p.getWin()) {
@@ -403,6 +476,11 @@ public class GameManager {
         } return false;
     }
 
+    /**
+     * Methode getWinner - Renvoie le gagant de la partie
+     * 
+     * @return leGagantDeLaPartie
+     */
     Player getWinner() {
         for (Player p : this.getPlayer_list()) {
             if (p.getWin()) {
@@ -411,19 +489,39 @@ public class GameManager {
         } return null;
     }
 
+    /**
+     * Methode - Renvoie l'index d'avancee de la partie
+     * 
+     * @return indexDAvancee
+     */
     int get_game_rang() {
         return this.game_rang;
     }
 
+    /**
+     * Methode - Initialise l'index d'avancee de la partie 
+     * 
+     * @param e
+     */
     void set_game_rang(int e) {
         this.game_rang = e;
     }
 
+    /**
+     * Methode - Incremente l'index d'avancee de la partie
+     * 
+     * @return lIndexDAvancee
+     */
     int increase_rang() {
         this.set_game_rang(this.get_game_rang() + 1);
         return this.get_game_rang();
     }
 
+    /**
+     * Methode - Decremente l'index d'avancee de la partie
+     * 
+     * @return lIndexDAvancee
+     */
     int decrease_rang() {
         this.set_game_rang(this.get_game_rang() - 1);
         return this.get_game_rang();
@@ -431,6 +529,11 @@ public class GameManager {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Methode action - Chargee de proposer et valider les chiox de jeu, faits au joueur actuel
+     * 
+     * @return unEtatDeJeuDuJoueur
+     */
     State action() {
 
         this.getPM().propositions2();
@@ -449,18 +552,19 @@ public class GameManager {
     }
 
 
+    /**
+     * Methode turn - Orchestre la logique de jeu selon l'etat du joueur actuel
+     */
     void turn(Player player_targeted) {
 
         switch(action()) {
-            case RETOUR_MENU -> { /* ON_REVIENT */
-                // this.getPM().lineJump(100);
+            case RETOUR_MENU -> {
                 this.getPM().vaccum();
                 this.getPM().separation();
-                // this.getPM().propositions2();
                 this.decrease_rang();
             }
 
-            case CARTE_POSEE -> { /* POSER LA CARTE */
+            case CARTE_POSEE -> {
 
                 int input = this.getPM().checkInput2(4, "Choisissez votre carte : ");
                 Carte lastCard = this.getLastCard();
@@ -468,55 +572,50 @@ public class GameManager {
                 if (this.check_choice2(player_targeted, input) && lastCard.association(player_targeted.getCardByIndex(input - 1))) {
                     this.poser_carte(player_targeted, input - 1);
 
-                    if (this.deckEmpty(player_targeted)) {      // 2 // return player_targeted;
-
+                    if (this.deckEmpty(player_targeted)) {
                         player_targeted.setWin();
-                        // ON RETURN LE PLAYER ACTUEL N'AYANT PLUS DE CARTES
-                        break;
                     }
                 }
             }
 
-            case A_PIOCHER -> { /* PIOCHER LA CARTE */
+            case A_PIOCHER -> {
                 this.piocher(player_targeted);
-                break;
             }
 
-            case A_ABANDONNE -> { /* ABANDON */
+            case A_ABANDONNE -> {
                 addToAbs(player_targeted);
 
                 if (this.dernier_joueur()) {
                     this.getJoueur(this.compare_Array()).setWin();
-                    // ON RETURN LE JOUEUR MAQUANT DE LA TABLE DES ABSENTS
-                    break;
                 }
             }
         }
     }
 
 
-    public Player /*void*/ game_2() {       // Refonte de game, qui est un vrai casse-tête
+    /**
+     * Methode game_2 - Chargee d'organiser la partie
+     * 
+     * @return leGagantDeLaPartie
+     */
+    public Player game_2() {
 
         this.getPM().vaccum();
         Player current;
-        // int rang = 0;    REMPLACÉ !          // Index de selection des Player // int input;      // entiers
 
         while (!this.winner_here()) {
 
-            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());           // Player actuel // Carte lastCard = this.getLastCard();         // Derniere carte du packet
-
+            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
             
-            current.description();
-            this.getPlateau().getJeu().description();
-            printManager.lineJump(1); //printManager.propositions();
-
+                current.description();
+                this.getPlateau().getJeu().description();
+                printManager.lineJump(1);
 
             this.turn(current);
 
-            this.increase_rang(); // rang++;
+            this.increase_rang();
             this.getPM().vaccum();
             this.getPM().separation();
-            // this.getPM().lineJump(100);
         }
 
         System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitation");

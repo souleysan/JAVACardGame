@@ -4,13 +4,24 @@ import java.util.Scanner;
 
 public class PrintManager {
 
+    /**
+     * Attribut scan de la Classe PrintManager
+     */
     private final Scanner scan;
 
+    /**
+     * [Unique] Constructeur de la Classe PrintManager
+     */
     public PrintManager() {
         this.scan = new Scanner(System.in);
     }
 
 
+    /**
+     * Methode lineJump - Parametre les sauts de ligne
+     * 
+     * @param lineJumped
+     */
     public void lineJump(int lineJumped) {
         for (int i = 0; i < lineJumped; i++) {
             System.out.println();
@@ -18,13 +29,18 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode separation - Affiche une separation
+     */
     public void separation() {
         System.out.println("____________________________________________________________");
     }
 
 
+    /**
+     * Methode vaccum - Remonte le terminal pour un affichage initial (en haut à gauche)
+     */
     public void vaccum() {
-        //System.out.print("\033[2J\033[H");          // efface, puis remonte le curseur
         System.out.print("\u001B[H\u001B[2J");
         System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
     }
@@ -66,6 +82,10 @@ public class PrintManager {
 
 ///////////////  OFFICIAL  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * Methode propositions2 - Affichage des propositions de jeu
+     */
     public void propositions2() {
         System.out.print("""
         Voulez-vous poser une carte ? (tapez 1)
@@ -75,6 +95,14 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode checkInput2 - Controle des entrees [Integer] du terinal
+     * 
+     * @param errorId
+     * @param prompt
+     * 
+     * @return unEntierCorrect
+     */
     public int checkInput2(int errorId, String prompt) {
         System.out.println(prompt);
         while (!this.scan.hasNextInt()) {
@@ -84,6 +112,9 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode printError2 - Centralise et affiche les messages d'erreur personalises
+     */
     public String printError2(int errorIdentificationchoice) {
 
         switch (errorIdentificationchoice) {          
@@ -94,7 +125,5 @@ public class PrintManager {
             default -> { return "\n"; }
         }
     }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

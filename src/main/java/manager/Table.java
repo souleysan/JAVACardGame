@@ -1,8 +1,10 @@
 package manager;
 
-import items.*;
 import java.util.ArrayList;
-import player.*;
+
+import items.Carte;
+import items.Packet;
+import player.Player;
 
 public class Table {
 
@@ -139,6 +141,11 @@ public class Table {
     }
 
 
+    /**
+     * Methode getPlayerList - Getter de la liste des joueurs composant le jeu
+     * 
+     * @return laListeDesJoueursEnJeu
+     */
     ArrayList<Player> getPlayerList() {
         return this.joueurs;
     }
