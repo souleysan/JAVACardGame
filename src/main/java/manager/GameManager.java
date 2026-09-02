@@ -158,7 +158,7 @@ public class GameManager {
     /**
      * Méthode game - Fonction qui gère la partie
      */
-    Player game() {
+    Player game_1() {
 
         int rang = 0;           // Index de selection des Player
         int input, choice;
@@ -459,7 +459,7 @@ public class GameManager {
      * 
      * @return laListeDesJoueursDeLaPartie
      */
-    ArrayList <Player> getPlayer_list() {
+    public ArrayList <Player> getPlayer_list() {
         return getPlateau().getPlayerList();
     }
 
@@ -527,6 +527,23 @@ public class GameManager {
         return this.get_game_rang();
     }
 
+
+    public void describe_game_players() {
+        this.getPM().lineJump(1);
+        String player_list = "| Cartes restantes | ";
+        for (Player p : this.getPlayer_list()) {
+            player_list += p.getNom() + " : " + p.getNbCartes() + " cartes | ";
+        }
+        System.out.println(player_list);
+        this.getPM().lineJump(2);
+    }
+
+
+    public void describe_game_card() {
+        System.out.print("Carte en jeu : ");
+        this.getLastCard().description();
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -537,6 +554,7 @@ public class GameManager {
     State action() {
 
         this.getPM().propositions2();
+        this.getPM().lineJump(1);
         int input = this.getPM().checkInput2(4, this.getPM().printError2(1));
 
         switch (input) {
@@ -557,10 +575,18 @@ public class GameManager {
      */
     void turn(Player player_targeted) {
 
+
+        // REFLEXION :
+            // - ASSIGNEMENT DES ETAT AUX JOUEURS (CLASSE PLAYER)
+            // - EN FONCTION DE L'ETAT DU JOUEUR, ON AFFICHE DANS LA DESCRIPTION (describe_game_players())
+            // FERA L'OBJET D'UNE NOUVELLE LIGNE D'ETAT SOUS LES CARTES RESTANTES
+                // - ex : PLAYER_1 ABANDONNE --> descr : PLAYER_1 : A_ABANDONNE
+                // - ex : PLAYER_4 PIOCHE --> descr : PLAYER_4 : A_PIOCHE
+
+
         switch(action()) {
             case RETOUR_MENU -> {
-                this.getPM().vaccum();
-                this.getPM().separation();
+                this.getPM().cleaning();
                 this.decrease_rang();
             }
 
@@ -600,22 +626,26 @@ public class GameManager {
      */
     public Player game_2() {
 
-        this.getPM().vaccum();
+        this.getPM().cleaning();
         Player current;
 
         while (!this.winner_here()) {
 
             current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
             
+                this.describe_game_players();
                 current.description();
-                this.getPlateau().getJeu().description();
+                this.describe_game_card();
+
+                // this.getPlateau().getJeu().description();
                 printManager.lineJump(1);
+
+                //
 
             this.turn(current);
 
             this.increase_rang();
-            this.getPM().vaccum();
-            this.getPM().separation();
+            this.getPM().cleaning();
         }
 
         System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitation");
@@ -625,7 +655,6 @@ public class GameManager {
     public static void main(String[] args) {
 
         GameManager gamecontrol = new GameManager();
-
         gamecontrol.game_2();
         
         // System.out.println("Nos félicitations : " + gamecontrol.game().getNom() + ", vous êtes le grand gagnant");

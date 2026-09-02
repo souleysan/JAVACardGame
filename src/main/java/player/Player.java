@@ -149,6 +149,11 @@ public class Player {
     }
 
 
+    public int getNbCartes() {
+        return this.getDeck().getSize();
+    }
+
+
     /**
      * Méthode setWin - Setter de l'état de victoire d'un joueur
      */

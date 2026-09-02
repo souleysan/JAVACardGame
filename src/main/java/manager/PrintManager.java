@@ -46,6 +46,11 @@ public class PrintManager {
     }
 
 
+    public void cleaning(){
+        this.vaccum();
+        this.separation();
+    }
+
 ///////////////  TO SUPP  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -60,7 +65,7 @@ public class PrintManager {
 
 
     public int checkInput(int errorId, String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         while (!this.scan.hasNextInt()) {
             scan.next();
             this.printError(errorId);
@@ -87,6 +92,7 @@ public class PrintManager {
      * Methode propositions2 - Affichage des propositions de jeu
      */
     public void propositions2() {
+        this.separation();
         System.out.print("""
         Voulez-vous poser une carte ? (tapez 1)
         Voulez-vous piocher une carte (tapez 2)
@@ -104,7 +110,7 @@ public class PrintManager {
      * @return unEntierCorrect
      */
     public int checkInput2(int errorId, String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         while (!this.scan.hasNextInt()) {
             scan.next();
             System.out.println(this.printError2(errorId));
