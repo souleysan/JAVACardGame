@@ -1,8 +1,10 @@
 package manager;
 
-import items.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import items.Carte;
+import items.Packet;
 import player.Player;
 
 public class GameManager {
@@ -11,6 +13,8 @@ public class GameManager {
      * Attribut Table de la Classe GameManager
      */
     Table plateau;
+
+
     /**
      * Scanner num de la Classe GameManager
      */
@@ -129,26 +133,26 @@ public class GameManager {
 
 
     /**
-     * Méthode compare_Array_to_tab - Renvoie un entier manquant dans la tab
+     * Méthode compare_Array - Renvoie un entier manquant dans la tab // l'id du joueur manquant dans la table des abandons
      *
      * @return unEntierManquant
      */
-    /*int compare_Array_to_tab(ArrayList<Integer> abs) {
-        int[] tabIndexPlayer = new int[this.getNbJoueurs()];
-        int missing = 0;
+    public int compare_Array() {
+        int[] tab_Player_Index = new int[this.getNbJoueurs()];
 
         for (int i = 0; i < this.getNbJoueurs(); i++) {
-            tabIndexPlayer[i] = this.getPlateau().joueurs.get(i).getId();
+            tab_Player_Index[i] = this.getJoueur(i).getId();
         }
 
-        for (int i : tabIndexPlayer) {
-            if (!abs.contains(i)) {
+        int missing = 0;
+        for (int i : tab_Player_Index) {
+            if (!this.getAbs().contains(i)) {
                 missing = i;
             }
         }
 
         return missing;
-    }*/
+    }
 
 
     /**
@@ -340,16 +344,194 @@ public class GameManager {
         return current;
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    static enum State {CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
 
+    public PrintManager getPM() { return this.printManager; }
 
-    Player game_final() {           // Refonte de game, qui est un vrai casse-tête
-        return new Player();
+    static ArrayList<Integer> abs = new ArrayList<>();
+
+    void addToAbs(Player player_targeted) { this.getAbs().add(player_targeted.getId()); }
+
+    ArrayList <Integer> getAbs() { return GameManager.abs; }
+
+    int game_rang = 0;
+
+    boolean check_choice2(Player player_targeted, int input) {
+        return player_targeted.checkValueCardChoice(input);
     }
 
+    void piocher(Player player_targeted) {
+        int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
+        player_targeted.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+    }
+
+    void poser_carte(Player player_targeted, int card_id) {
+        player_targeted.poserCarte(this.getJeu(), card_id);
+    }
+
+    Carte getLastCard() {
+        return this.getPlateau().getLastCard();
+    }
+
+    Packet getJeu() {
+        return this.getPlateau().getJeu();
+    }
+
+    boolean deckEmpty(Player player_targeted) {
+        return player_targeted.deckEmpty();
+    }
+
+    boolean dernier_joueur() {
+        return this.getAbs().size() == this.getNbJoueurs() - 1;
+    }
+
+    public Player getJoueur(int player_id) {
+        return this.getPlateau().getPlayer(player_id);
+    }
+
+    ArrayList <Player> getPlayer_list() {
+        return getPlateau().getPlayerList();
+    }
+
+    boolean winner_here() {
+        for (Player p : this.getPlayer_list()) {
+            if (p.getWin()) {
+                return true;
+            }
+        } return false;
+    }
+
+    Player getWinner() {
+        for (Player p : this.getPlayer_list()) {
+            if (p.getWin()) {
+                return p;
+            }
+        } return null;
+    }
+
+    int get_game_rang() {
+        return this.game_rang;
+    }
+
+    void set_game_rang(int e) {
+        this.game_rang = e;
+    }
+
+    int increase_rang() {
+        this.set_game_rang(this.get_game_rang() + 1);
+        return this.get_game_rang();
+    }
+
+    int decrease_rang() {
+        this.set_game_rang(this.get_game_rang() - 1);
+        return this.get_game_rang();
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    State action() {
+
+        this.getPM().propositions2();
+        int input = this.getPM().checkInput2(4, this.getPM().printError2(1));
+
+        switch (input) {
+            case 0 -> { return State.RETOUR_MENU; }
+            case 1 -> { return State.CARTE_POSEE; }
+            case 2 -> { return State.A_PIOCHER; }
+            case 11 -> { return State.A_ABANDONNE; }
+            default -> {
+                this.getPM().printError2(4);
+                return State.RETOUR_MENU;
+            }
+        }
+    }
+
+
+    void turn(Player player_targeted) {
+
+        switch(action()) {
+            case RETOUR_MENU -> { /* ON_REVIENT */
+                // this.getPM().lineJump(100);
+                this.getPM().vaccum();
+                this.getPM().separation();
+                // this.getPM().propositions2();
+                this.decrease_rang();
+            }
+
+            case CARTE_POSEE -> { /* POSER LA CARTE */
+
+                int input = this.getPM().checkInput2(4, "Choisissez votre carte : ");
+                Carte lastCard = this.getLastCard();
+
+                if (this.check_choice2(player_targeted, input) && lastCard.association(player_targeted.getCardByIndex(input - 1))) {
+                    this.poser_carte(player_targeted, input - 1);
+
+                    if (this.deckEmpty(player_targeted)) {      // 2 // return player_targeted;
+
+                        player_targeted.setWin();
+                        // ON RETURN LE PLAYER ACTUEL N'AYANT PLUS DE CARTES
+                        break;
+                    }
+                }
+            }
+
+            case A_PIOCHER -> { /* PIOCHER LA CARTE */
+                this.piocher(player_targeted);
+                break;
+            }
+
+            case A_ABANDONNE -> { /* ABANDON */
+                addToAbs(player_targeted);
+
+                if (this.dernier_joueur()) {
+                    this.getJoueur(this.compare_Array()).setWin();
+                    // ON RETURN LE JOUEUR MAQUANT DE LA TABLE DES ABSENTS
+                    break;
+                }
+            }
+        }
+    }
+
+
+    public Player /*void*/ game_2() {       // Refonte de game, qui est un vrai casse-tête
+
+        this.getPM().vaccum();
+        Player current;
+        // int rang = 0;    REMPLACÉ !          // Index de selection des Player // int input;      // entiers
+
+        while (!this.winner_here()) {
+
+            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());           // Player actuel // Carte lastCard = this.getLastCard();         // Derniere carte du packet
+
+            
+            current.description();
+            this.getPlateau().getJeu().description();
+            printManager.lineJump(1); //printManager.propositions();
+
+
+            this.turn(current);
+
+            this.increase_rang(); // rang++;
+            this.getPM().vaccum();
+            this.getPM().separation();
+            // this.getPM().lineJump(100);
+        }
+
+        System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitation");
+        return this.getWinner();
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
 
-        GameManager g = new GameManager();
-        System.out.println("Nos félicitations : " + g.game().getNom() + ", vous êtes le grand gagnant");
+        GameManager gamecontrol = new GameManager();
+
+        gamecontrol.game_2();
+        
+        // System.out.println("Nos félicitations : " + gamecontrol.game().getNom() + ", vous êtes le grand gagnant");
+        // System.out.println("Nos félicitations : " + gamecontrol.game_2().getNom() + ", vous êtes le grand gagnant");
+        
+
     }
 }

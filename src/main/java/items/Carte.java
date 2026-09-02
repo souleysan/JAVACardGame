@@ -135,4 +135,9 @@ public class Carte {
     public boolean compareCouleur(Carte e) {
         return this.couleur == e.couleur;
     }
+
+
+    public boolean association(Carte e) {
+        return (this.compareCouleur(e) || this.compareValeur(e) || e.estHuit());
+    }
 }
