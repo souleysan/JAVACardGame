@@ -1,7 +1,9 @@
 package player;
 
-import items.*;
 import java.util.ArrayList;
+
+import items.Carte;
+import items.Packet;
 
 public class Player {
 
@@ -29,6 +31,8 @@ public class Player {
      * Attribut Id de la Classe Player - (propre à chaque Player)
      */
     private int id;
+
+    boolean win;
 
     /**
      * [Unique] Constructeur de la Classe Player
@@ -133,6 +137,16 @@ public class Player {
     }
 
 
+    public boolean getWin() {
+        return this.win;
+    }
+
+
+    public void setWin() {
+        this.win = true;
+    }
+
+
     /**
      * Méthode piocher - Le Player pioche une carte
      *
@@ -181,7 +195,7 @@ public class Player {
      * @return correctSelectedCard
      */
     public boolean checkValueCardChoice(int input) {
-        return !(input > this.getPack().size() || input < 0);
+        return !(input > this.getPack().size() || input <= 0);
     }
 
 

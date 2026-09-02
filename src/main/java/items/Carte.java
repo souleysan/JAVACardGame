@@ -63,7 +63,7 @@ public class Carte {
      * [ex] --> AS de PIQUE
      */
     public void description() {
-        System.out.println(this.getValeur() + " de ");
+        System.out.print(this.getValeur() + " de ");
         switch (this.getCouleur()) {
             case CARREAUX -> System.out.println("♦️");
             case COEUR -> System.out.println("♥️");
@@ -134,5 +134,10 @@ public class Carte {
      */
     public boolean compareCouleur(Carte e) {
         return this.couleur == e.couleur;
+    }
+
+
+    public boolean association(Carte e) {
+        return (this.compareCouleur(e) || this.compareValeur(e) || e.estHuit());
     }
 }

@@ -137,4 +137,9 @@ public class Table {
     public Carte getLastCard() {
         return this.getJeu().getCardByIndex(this.getJeu().pack.size() - 1);
     }
+
+
+    ArrayList<Player> getPlayerList() {
+        return this.joueurs;
+    }
 }
