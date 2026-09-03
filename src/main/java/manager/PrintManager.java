@@ -18,6 +18,7 @@ public class PrintManager {
         this.scan = new Scanner(System.in);
     }
 
+
     // AJOUT DU CODE COULEUR EN FONCITON DU JOUEUR + CLASSE PLAYER
 
 
@@ -46,17 +47,21 @@ public class PrintManager {
      */
     public void vaccum() {
         System.out.print("\u001B[H\u001B[2J");
-        System.out.flush();         // Force la remontée, par l'envoie de la sequence precedante
+        System.out.flush();
     }
 
 
+    /**
+     * Methode cleaning - Nettoyage et remontee du terminal
+     */
     public void cleaning(){
         this.lineJump(15);
         this.vaccum();
         this.separation();
     }
 
-///////////////  TO SUPP  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////  TO SUPP  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Méthode propositions - Affiche les actions possibles pendant la partie
@@ -69,6 +74,14 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode checkInput - Controle des entrees [Integer] du terinal
+     * 
+     * @param errorId
+     * @param prompt
+     * 
+     * @return unEntierCorrect
+     */
     public int checkInput(int errorId, String prompt) {
         System.out.print(prompt);
         while (!this.scan.hasNextInt()) {
@@ -77,7 +90,12 @@ public class PrintManager {
         } return scan.nextInt();
     }
 
-    
+
+    /**
+     * Methode printError - Centralise et affiche les messages d'erreur personalises
+     * 
+     * @param errorIdentification
+     */
     public void printError(int errorIdentification) {
 
         switch (errorIdentification) {            
@@ -90,7 +108,8 @@ public class PrintManager {
         }
     }
 
-///////////////  OFFICIAL  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////  TO SUPP  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////  OFFICIAL  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -126,6 +145,10 @@ public class PrintManager {
 
     /**
      * Methode printError2 - Centralise et affiche les messages d'erreur personalises
+     * 
+     * @param errorIdentification
+     * 
+     * @return messageDErreur
      */
     public String printError2(int errorIdentificationchoice) {
 
@@ -139,12 +162,23 @@ public class PrintManager {
     }
 
 
-    public void describe_game_card(GameManager game) {                          // MIGRATION PRINTMANAGER
+///////////////  OFFICIAL  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Methode describe_game_card - Affichage de la description de la derniere carte en jeu
+     */
+    public void describe_game_card(GameManager game) {
         System.out.print("Carte en jeu : ");
         game.getLastCard().description();
     }
 
 
+    /**
+     * Methode describe_current_player - Affichage de la description du joueur actuel
+     * 
+     * @param player_targeted
+     */
     public void describe_current_player(Player player_targeted) {
         System.out.print("Player actuel : ");
         player_targeted.description();
