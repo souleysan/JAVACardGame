@@ -31,7 +31,6 @@ public class GameManager {
         int nbCartes = this.parameterNumber("cartes");
         this.plateau = new Table(nbJoueurs, nbCartes);
         this.printManager = new PrintManager();
-
     }
 
 
@@ -350,6 +349,15 @@ public class GameManager {
      * Enumerateur d'etat de la Classe GameManager
      */
     static enum State {CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
+    /**
+     * Attribut abs de la Classe GameManager - Le tableau des abandons
+     */
+    static ArrayList<Integer> abs = new ArrayList<>();
+    /**
+     * Attribut game_rang de la Classe GameManager
+     */
+    int game_rang = 0;
+
 
     /**
      * Methode getPM - Getter de l'attribut printManager
@@ -357,11 +365,6 @@ public class GameManager {
      * @return printManager
      */
     public PrintManager getPM() { return this.printManager; }
-
-    /**
-     * Attribut abs de la Classe GameManager - Le tableau des abandons
-     */
-    static ArrayList<Integer> abs = new ArrayList<>();
 
     /**
      * Methode addToAbs - Ajoute le joueur cible à la table des abandons
@@ -376,11 +379,6 @@ public class GameManager {
      * @return laTableDesAbandons
      */
     ArrayList <Integer> getAbs() { return GameManager.abs; }
-
-    /**
-     * Attribut game_rang de la Classe GameManager
-     */
-    int game_rang = 0;
 
     /**
      * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
@@ -530,9 +528,9 @@ public class GameManager {
 
     public void describe_game_players() {
         this.getPM().lineJump(1);
-        String player_list = "| Cartes restantes | ";
+        String player_list = "";
         for (Player p : this.getPlayer_list()) {
-            player_list += p.getNom() + " : " + p.getNbCartes() + " cartes | ";
+            player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes\n";
         }
         System.out.println(player_list);
         this.getPM().lineJump(2);
@@ -540,8 +538,23 @@ public class GameManager {
 
 
     public void describe_game_card() {
-        System.out.print("Carte en jeu : ");
-        this.getLastCard().description();
+        this.getPM().describe_game_card(this);
+    }
+
+
+    public void describe_current_player(Player player_targeted) {
+        this.getPM().describe_current_player(player_targeted);
+
+    }
+
+
+    Packet getPioche() {
+        return this.getPlateau().getPioche();
+    }
+
+
+    public void reload_pioche() {
+        this.getPioche().initPioche(this.getJeu());
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -561,7 +574,7 @@ public class GameManager {
             case 0 -> { return State.RETOUR_MENU; }
             case 1 -> { return State.CARTE_POSEE; }
             case 2 -> { return State.A_PIOCHER; }
-            case 11 -> { return State.A_ABANDONNE; }
+            case 100 -> { return State.A_ABANDONNE; }
             default -> {
                 this.getPM().printError2(4);
                 return State.RETOUR_MENU;
@@ -596,12 +609,14 @@ public class GameManager {
                 Carte lastCard = this.getLastCard();
 
                 if (this.check_choice2(player_targeted, input) && lastCard.association(player_targeted.getCardByIndex(input - 1))) {
+
+                    this.reload_pioche();
                     this.poser_carte(player_targeted, input - 1);
 
                     if (this.deckEmpty(player_targeted)) {
                         player_targeted.setWin();
                     }
-                }
+                } else { this.decrease_rang(); }
             }
 
             case A_PIOCHER -> {
@@ -633,22 +648,25 @@ public class GameManager {
 
             current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
             
-                this.describe_game_players();
-                current.description();
-                this.describe_game_card();
-
-                // this.getPlateau().getJeu().description();
-                printManager.lineJump(1);
-
-                //
+                this.describe_game_players();// current.description();
+                this.describe_current_player(current);
+                this.describe_game_card();// this.getPlateau().getJeu().description();
+                printManager.lineJump(1);//
 
             this.turn(current);
-
             this.increase_rang();
+
             this.getPM().cleaning();
         }
 
-        System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitation");
+        System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitations 🎉");       // MIGRATION PRINTMANAGER
+
+
+        // REFLEXION :
+            // - PROPOSITION DE RELANCE D'UNE PARTIE, SELON "Oui"/"Non"
+                // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
+                // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
+
         return this.getWinner();
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -659,7 +677,6 @@ public class GameManager {
         
         // System.out.println("Nos félicitations : " + gamecontrol.game().getNom() + ", vous êtes le grand gagnant");
         // System.out.println("Nos félicitations : " + gamecontrol.game_2().getNom() + ", vous êtes le grand gagnant");
-        
 
     }
 }

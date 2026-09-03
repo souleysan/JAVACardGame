@@ -2,6 +2,8 @@ package manager;
 
 import java.util.Scanner;
 
+import player.Player;
+
 public class PrintManager {
 
     /**
@@ -16,6 +18,8 @@ public class PrintManager {
         this.scan = new Scanner(System.in);
     }
 
+    // AJOUT DU CODE COULEUR EN FONCITON DU JOUEUR + CLASSE PLAYER
+
 
     /**
      * Methode lineJump - Parametre les sauts de ligne
@@ -24,7 +28,7 @@ public class PrintManager {
      */
     public void lineJump(int lineJumped) {
         for (int i = 0; i < lineJumped; i++) {
-            System.out.println();
+            System.out.println(" ");
         }
     }
 
@@ -47,6 +51,7 @@ public class PrintManager {
 
 
     public void cleaning(){
+        this.lineJump(15);
         this.vaccum();
         this.separation();
     }
@@ -94,9 +99,10 @@ public class PrintManager {
     public void propositions2() {
         this.separation();
         System.out.print("""
-        Voulez-vous poser une carte ? (tapez 1)
-        Voulez-vous piocher une carte (tapez 2)
-        Voulez-vous abandonner la partie ? (tapez 11)
+            Voulez-vous retourner au menu principal ? (tapez 0)
+            Voulez-vous poser une carte ? (tapez 1)
+            Voulez-vous piocher une carte (tapez 2)
+            Voulez-vous abandonner la partie ? (tapez 100)
         """);
     }
 
@@ -130,6 +136,18 @@ public class PrintManager {
             case 4 -> { return "Proposition invalide, entrez un choix correct..."; }
             default -> { return "\n"; }
         }
+    }
+
+
+    public void describe_game_card(GameManager game) {                          // MIGRATION PRINTMANAGER
+        System.out.print("Carte en jeu : ");
+        game.getLastCard().description();
+    }
+
+
+    public void describe_current_player(Player player_targeted) {
+        System.out.print("Player actuel : ");
+        player_targeted.description();
     }
 
 }
