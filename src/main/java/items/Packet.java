@@ -86,6 +86,11 @@ public class Packet {
     }
 
 
+    ArrayList<Carte> getPack() {
+        return this.pack;
+    }
+
+
     /**
      * Méthode getCardByIndex - Getter d'une carte dans le packet, grâce à
      * son index
@@ -182,5 +187,10 @@ public class Packet {
         //Carte def = new Carte(e.getValeur(), e.getCouleur());
         this.pack.remove(e);
         return e;
+    }
+
+
+    public void reset() {
+        this.getPack().clear();
     }
 }

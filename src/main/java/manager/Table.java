@@ -149,4 +149,12 @@ public class Table {
     ArrayList<Player> getPlayerList() {
         return this.joueurs;
     }
+
+
+    public void reset() {
+        this.joueurs.clear();
+        this.nbJoueurs = 0;
+        this.getJeu().reset();
+        this.getPioche().reset();
+    }
 }

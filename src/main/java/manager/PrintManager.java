@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import player.Player;
@@ -154,8 +155,8 @@ public class PrintManager {
 
         switch (errorIdentificationchoice) {          
             case 1 -> { return "Entrez votre choix : "; }
-            case 2 -> { return "Entrez un entier valide... "; }
-            case 3 -> { return "Selectionnez une autre card\n0, si vous voulez piocher\n11, pour abandonner : "; }
+            // case 2 -> { return "Entrez un entier valide... "; }
+            // case 3 -> { return "Selectionnez une autre card\n0, si vous voulez piocher\n11, pour abandonner : "; }
             case 4 -> { return "Proposition invalide, entrez un choix correct..."; }
             default -> { return "\n"; }
         }
@@ -182,6 +183,24 @@ public class PrintManager {
     public void describe_current_player(Player player_targeted) {
         System.out.print("Player actuel : ");
         player_targeted.description();
+    }
+
+
+    public void present_winner(Player player_targeted) {
+        System.out.println(player_targeted.getNom() + " vous avez gagné, mes félicitations 🎉");
+    }
+
+
+    public void present_winners(ArrayList<Player> list) {
+        System.out.println("Voici un recap des gagnants, des parties consecutives :");
+        for (Player p : list) {
+            System.out.println(p.getNom());
+        }
+    }
+
+
+    public void reset() {
+        this.scan.close();
     }
 
 }

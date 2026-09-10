@@ -34,6 +34,10 @@ public class GameManager {
      */
     int game_rang = 0;
 
+
+    ArrayList <Player> list_of_winners = new ArrayList<>();
+
+
     /**
      * [Unique] Constructeur de la classe GameManager - Initialise les
      * paramètres de la partie
@@ -114,7 +118,7 @@ public class GameManager {
      * @return unJoueurCible
      */
     public Player getJoueur(int player_id) {
-        return this.getPlateau().getPlayer(player_id);
+        return this.getPlateau().getPlayer(player_id % this.getNbJoueurs());
     }
 
 
@@ -149,6 +153,21 @@ public class GameManager {
      */
     int get_game_rang() {
         return this.game_rang;
+    }
+
+
+    /**
+     * Methode getPioche - Getter de la pioche du jeu
+     * 
+     * @return laPiocheDuJeu
+     */
+    Packet getPioche() {
+        return this.getPlateau().getPioche();
+    }
+
+
+    ArrayList <Player> get_list_of_winner() {
+        return this.list_of_winners;
     }
 
 
@@ -388,23 +407,11 @@ public class GameManager {
 
 
     /**
-     * Methode getPioche - Getter de la pioche du jeu
-     * 
-     * @return laPiocheDuJeu
-     */
-    Packet getPioche() {
-        return this.getPlateau().getPioche();
-    }
-
-
-    /**
      * Methode reload_pioche - Rafraichit la pioche en ajoutant les cartes [inutiles] de la pile de jeu
      */
     public void reload_pioche() {
         this.getPioche().initPioche(this.getJeu());
     }
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -634,9 +641,8 @@ public class GameManager {
 
 
         // REFLEXION :
-            // - ASSIGNEMENT DES ETAT AUX JOUEURS (CLASSE PLAYER)
+            // - ASSIGNEMENT DES ETAT AUX JOUEURS (CLASSE PLAYER)   +   FERA L'OBJET D'UNE NOUVELLE LIGNE D'ETAT SOUS LES CARTES RESTANTES
             // - EN FONCTION DE L'ETAT DU JOUEUR, ON AFFICHE DANS LA DESCRIPTION (describe_game_players())
-            // FERA L'OBJET D'UNE NOUVELLE LIGNE D'ETAT SOUS LES CARTES RESTANTES
                 // - ex : PLAYER_1 ABANDONNE --> descr : PLAYER_1 : A_ABANDONNE
                 // - ex : PLAYER_4 PIOCHE --> descr : PLAYER_4 : A_PIOCHE
 
@@ -658,7 +664,7 @@ public class GameManager {
                     this.poser_carte(player_targeted, input - 1);
 
                     if (this.deckEmpty(player_targeted)) {
-                        player_targeted.setWin();
+                        player_targeted.setWin(true);
                     }
                 } else { this.decrease_rang(); }
             }
@@ -671,11 +677,23 @@ public class GameManager {
                 addToAbs(player_targeted);
 
                 if (this.dernier_joueur()) {
-                    this.getJoueur(this.compare_Array()).setWin();
+                    this.getJoueur(this.compare_Array()).setWin(true);
                 }
             }
         }
     }
+
+
+/*
+    void part_reset() {          // Methode de reinitialisation partielle des atributs de la classe
+        this.game_rang = 0;
+        // this.get_list_of_winner().clear();
+        this.getPlateau().reset();
+        this.getPM().reset();
+        this.scan1.close();
+        this.getAbs().clear();
+    }
+*/
 
 
     /**
@@ -683,7 +701,7 @@ public class GameManager {
      * 
      * @return leGagantDeLaPartie
      */
-    public Player game_2() {
+    public Player game_2() {            // RENVOI : Player / ArrayList<Player>
 
         this.getPM().cleaning();
         Player current;
@@ -699,11 +717,10 @@ public class GameManager {
 
             this.turn(current);
             this.increase_rang();
-
             this.getPM().cleaning();
         }
 
-        System.out.println(this.getWinner().getNom() + " vous avez gagné, mes félicitations 🎉");       // MIGRATION PRINTMANAGER
+        this.get_list_of_winner().add(this.getWinner());      // Ajout du gagnant la la liste des gagnants
 
 
         // REFLEXION :
@@ -711,6 +728,31 @@ public class GameManager {
                 // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
                 // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
 
+
+/*
+        int input = this.getPM().checkInput2(4, "Voulez-vous relancer une nouvelle partie ?\n 1 : Oui    |    0 : Non\nVotre choix : ");
+        switch (input) {
+            case 0 -> {
+                this.getPM().cleaning();
+                break;
+            }
+            case 1 -> {
+
+                this.getPM().cleaning();                        // MODIF
+                this.part_reset(); // Methode de reset de la Classe ////////////////////////////////////////////////////////////////////////////////////////
+                GameManager newGame = new GameManager(); // METHODE DE RESET + DE COPIAGE DES ATTRIBUTS D'UN NOUVEAU GAMEMANAGER
+                this.get_list_of_winner().add(newGame.game_2());
+            }
+        }
+
+        if (this.get_list_of_winner().size() == 1) {
+            this.getPM().present_winner(this.getWinner());      // Presentation du gagnant (si qu'un seul)
+        } else {
+            this.getPM().present_winners(list_of_winners);      // Presentation des gagnants (si plusieurs partie d'affilee)
+        }
+*/
+
+        this.getPM().present_winner(this.getWinner());      // Presentation du gagnant (si qu'un seul)    
         return this.getWinner();
     }
 
@@ -720,10 +762,7 @@ public class GameManager {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
 
-        GameManager gamecontrol = new GameManager();
-
-        gamecontrol.game_2();
-        // System.out.println("Nos félicitations : " + gamecontrol.game().getNom() + ", vous êtes le grand gagnant");
+        GameManager gamecontrol = new GameManager(); gamecontrol.game_2();
 
     }
 }

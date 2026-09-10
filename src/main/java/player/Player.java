@@ -41,7 +41,7 @@ public class Player {
      */
     public Player() {
         this.id = Player.identifiant;
-        this.nom = Player.Nom.values()[this.getId()];
+        this.nom = Player.Nom.values()[this.getId()%4];
         this.deck = new Packet();
         Player.identifiant++;
     }
@@ -128,6 +128,11 @@ public class Player {
     }
 
 
+    void setNom(Nom nom) {
+        this.nom = nom;
+    }
+
+
     /**
      * Méthode getCardByIndex - Getter d'une carte à partir de son index
      *
@@ -157,8 +162,8 @@ public class Player {
     /**
      * Méthode setWin - Setter de l'état de victoire d'un joueur
      */
-    public void setWin() {
-        this.win = true;
+    public void setWin(boolean w) {
+        this.win = w;
     }
 
 
@@ -211,6 +216,16 @@ public class Player {
      */
     public boolean checkValueCardChoice(int input) {
         return !(input > this.getPack().size() || input <= 0);
+    }
+
+
+    public void reset() {
+        this.setNom(null);
+        this.getDeck().reset();
+        this.setWin(false);
+        this.id = 0;
+        Player.identifiant = 0;
+
     }
 
 
