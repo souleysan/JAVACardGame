@@ -33,8 +33,9 @@ public class GameManager {
      * Attribut game_rang de la Classe GameManager
      */
     int game_rang = 0;
-
-
+    /**
+     * Attribut list_of_winners de la Classe GameManager
+     */
     ArrayList <Player> list_of_winners = new ArrayList<>();
 
 
@@ -166,6 +167,11 @@ public class GameManager {
     }
 
 
+    /**
+     * Methode get_list_of_winner - Getter de la liste des gagants
+     * 
+     * @return laListe des gagants
+     */
     ArrayList <Player> get_list_of_winner() {
         return this.list_of_winners;
     }
@@ -283,6 +289,8 @@ public class GameManager {
     
     /**
      * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
+     * 
+     * @return laValiditeDUneCarte
      */
     boolean check_choice2(Player player_targeted, int input) {
         return player_targeted.checkValueCardChoice(input);
@@ -637,14 +645,6 @@ public class GameManager {
      */
     void turn(Player player_targeted) {
 
-
-        // REFLEXION :
-            // - ASSIGNEMENT DES ETAT AUX JOUEURS (CLASSE PLAYER)   +   FERA L'OBJET D'UNE NOUVELLE LIGNE D'ETAT SOUS LES CARTES RESTANTES
-            // - EN FONCTION DE L'ETAT DU JOUEUR, ON AFFICHE DANS LA DESCRIPTION (describe_game_players())
-                // - ex : PLAYER_1 ABANDONNE --> descr : PLAYER_1 : A_ABANDONNE
-                // - ex : PLAYER_4 PIOCHE --> descr : PLAYER_4 : A_PIOCHE
-
-
         switch(action()) {
             case RETOUR_MENU -> {
                 this.getPM().cleaning();
@@ -702,7 +702,7 @@ public class GameManager {
      * 
      * @return leGagantDeLaPartie
      */
-    public Player game_2() {            // RENVOI : Player / ArrayList<Player>
+    public Player game_2() {
 
         this.getPM().cleaning();
         Player current;
@@ -711,24 +711,23 @@ public class GameManager {
 
             current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
             
-                this.describe_game_players();// current.description();
+                this.describe_game_players();
                 this.describe_current_player(current);
-                this.describe_game_card();// this.getPlateau().getJeu().description();
-                printManager.lineJump(1);//
+                this.describe_game_card();
+                printManager.lineJump(1);
 
             this.turn(current);
             this.increase_rang();
             this.getPM().cleaning();
         }
 
-        this.get_list_of_winner().add(this.getWinner());      // Ajout du gagnant la la liste des gagnants
+        this.get_list_of_winner().add(this.getWinner());
 
 
         // REFLEXION :
             // - PROPOSITION DE RELANCE D'UNE PARTIE, SELON "Oui"/"Non"
                 // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
                 // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
-
 
 /*
         int input = this.getPM().checkInput2(4, "Voulez-vous relancer une nouvelle partie ?\n 1 : Oui    |    0 : Non\nVotre choix : ");
@@ -753,12 +752,15 @@ public class GameManager {
         }
 */
 
-        this.getPM().present_winner(this.getWinner());      // Presentation du gagnant (si qu'un seul)    
+
+        this.getPM().present_winner(this.getWinner());
         return this.getWinner();
     }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     public static void main(String[] args) {
         GameManager gamecontrol = new GameManager(); gamecontrol.game_2();
     }

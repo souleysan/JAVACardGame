@@ -155,8 +155,6 @@ public class PrintManager {
 
         switch (errorIdentificationchoice) {          
             case 1 -> { return "Entrez votre choix : "; }
-            // case 2 -> { return "Entrez un entier valide... "; }
-            // case 3 -> { return "Selectionnez une autre card\n0, si vous voulez piocher\n11, pour abandonner : "; }
             case 4 -> { return "Proposition invalide, entrez un choix correct..."; }
             default -> { return "\n"; }
         }
@@ -186,11 +184,21 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode present_winner - Description et message de felicitations au gagnant de la partie
+     * 
+     * @param player_targeted
+     */
     public void present_winner(Player player_targeted) {
         System.out.println(player_targeted.getNom() + " vous avez gagné, mes félicitations 🎉");
     }
 
 
+    /**
+     * Methode present_winners - Description et message de felicitations aux gagnants de la partie
+     * 
+     * @param player_targeted
+     */
     public void present_winners(ArrayList<Player> list) {
         System.out.println("Voici un recap des gagnants, des parties consecutives :");
         for (Player p : list) {
@@ -199,6 +207,11 @@ public class PrintManager {
     }
 
 
+    /**
+     * Methode reeset - Reinitialisation des attributs du printManager
+     * 
+     * @param player_targeted
+     */
     public void reset() {
         this.scan.close();
     }

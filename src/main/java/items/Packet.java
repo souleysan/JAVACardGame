@@ -86,6 +86,10 @@ public class Packet {
     }
 
 
+    /**
+     * Methode getPack - Getter du packet de carte
+     * @return
+     */
     ArrayList<Carte> getPack() {
         return this.pack;
     }
@@ -190,6 +194,9 @@ public class Packet {
     }
 
 
+    /**
+     * Methode reset - Reinitialisation des attributs du packet
+     */
     public void reset() {
         this.getPack().clear();
     }

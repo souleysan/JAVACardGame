@@ -36,9 +36,9 @@ public class Player {
      * Attribut win de la Classe Player - True, si ce joueur est le gagnant
      */
     boolean win;
-    
-    //enum State {A_ABANDONNE, A_PIOCHER, CARTE_POSEE, RETOUR_MENU};
-    //State s = GameManager.State.values()[0];
+    /**
+     * Attribut s (state) de la Classe Player
+     */
     GameManager.State s = GameManager.State.values()[0];
 
     /**
@@ -133,16 +133,31 @@ public class Player {
     }
 
 
+    /**
+     * Methode getState - Getter de l'etat d'un joueur
+     * 
+     * @return lEtatDuJoueur
+     */
     public GameManager.State getState() {
         return this.s;
     }
 
 
+    /**
+     * Methode setNom - Setter du nom du joueur
+     * 
+     * @param nom
+     */
     void setNom(Nom nom) {
         this.nom = nom;
     }
 
 
+    /**
+     * Methode setState - Setter de l'etat du joueur
+     * 
+     * @param s
+     */
     public void setState(int s) {
         this.s = GameManager.State.values()[s];
     }
@@ -169,6 +184,11 @@ public class Player {
     }
 
 
+    /**
+     * Methode getNbCartes - Getter du nombre de cartes detenues par le joueur
+     * 
+     * @return nombreDeCartesDetenuesParLeJoueur
+     */
     public int getNbCartes() {
         return this.getDeck().getSize();
     }
@@ -234,6 +254,9 @@ public class Player {
     }
 
 
+    /**
+     * Methode reset - Reinitialisation des attributs du joueur
+     */
     public void reset() {
         this.setNom(null);
         this.getDeck().reset();
@@ -246,9 +269,4 @@ public class Player {
 
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
-
-    public static void main (String [] args) {
-        Player p = new Player();
-        System.out.println(p.s);
-    }
 }

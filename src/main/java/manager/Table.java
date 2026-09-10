@@ -151,6 +151,9 @@ public class Table {
     }
 
 
+    /**
+     * Methode reset - Reinitialisation des attributs de la table
+     */
     public void reset() {
         this.joueurs.clear();
         this.nbJoueurs = 0;
