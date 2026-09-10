@@ -10,13 +10,13 @@ public class PrintManager {
     /**
      * Attribut scan de la Classe PrintManager
      */
-    private final Scanner scan;
+    public static Scanner scan;
 
     /**
      * [Unique] Constructeur de la Classe PrintManager
      */
     public PrintManager() {
-        this.scan = new Scanner(System.in);
+        PrintManager.scan = new Scanner(System.in);
     }
 
 
@@ -28,7 +28,7 @@ public class PrintManager {
      * 
      * @param lineJumped
      */
-    public void lineJump(int lineJumped) {
+    public static void lineJump(int lineJumped) {
         for (int i = 0; i < lineJumped; i++) {
             System.out.println(" ");
         }
@@ -119,7 +119,7 @@ public class PrintManager {
     public void propositions2() {
         this.separation();
         System.out.print("""
-            Voulez-vous retourner au menu principal ? (tapez 0)
+            \nVoulez-vous retourner au menu principal ? (tapez 0)
             Voulez-vous poser une carte ? (tapez 1)
             Voulez-vous piocher une carte (tapez 2)
             Voulez-vous abandonner la partie ? (tapez 100)
@@ -135,11 +135,11 @@ public class PrintManager {
      * 
      * @return unEntierCorrect
      */
-    public int checkInput2(int errorId, String prompt) {
+    public static int checkInput2(int errorId, String prompt) {
         System.out.print(prompt);
-        while (!this.scan.hasNextInt()) {
+        while (!PrintManager.scan.hasNextInt()) {
             scan.next();
-            System.out.println(this.printError2(errorId));
+            System.out.println(PrintManager.printError2(errorId));
         } return scan.nextInt();
     }
 
@@ -151,11 +151,11 @@ public class PrintManager {
      * 
      * @return messageDErreur
      */
-    public String printError2(int errorIdentificationchoice) {
+    public static String printError2(int errorIdentificationchoice) {
 
         switch (errorIdentificationchoice) {          
             case 1 -> { return "Entrez votre choix : "; }
-            case 4 -> { return "Proposition invalide, entrez un choix correct..."; }
+            case 2 -> { return "Proposition invalide, entrez un choix correct..."; }
             default -> { return "\n"; }
         }
     }
@@ -199,11 +199,27 @@ public class PrintManager {
      * 
      * @param player_targeted
      */
-    public void present_winners(ArrayList<Player> list) {
+    public static void present_winners(ArrayList<Player> list) {
         System.out.println("Voici un recap des gagnants, des parties consecutives :");
         for (Player p : list) {
             System.out.println(p.getNom());
         }
+    }
+
+
+    public static void present_winners_both(ArrayList<Player> list) {      // OFFICIEL
+        PrintManager.lineJump(2);
+        
+        if (list.size() <= 1) {
+            System.out.println(list.get(0).getNom() + " vous avez gagné, mes félicitations 🎉");
+        } else {
+            System.out.println("Voici un recap des gagnants, des parties consecutives :");
+            for (Player p : list) {
+                System.out.println(p.getNom());
+            }
+        }
+        System.out.println("\nVous avez les felicitations de l'equipe de developpement");
+        PrintManager.lineJump(2);
     }
 
 
@@ -213,7 +229,7 @@ public class PrintManager {
      * @param player_targeted
      */
     public void reset() {
-        this.scan.close();
+        PrintManager.scan.close();
     }
 
 }

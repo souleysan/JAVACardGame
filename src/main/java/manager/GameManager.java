@@ -28,7 +28,7 @@ public class GameManager {
     /**
      * Attribut abs de la Classe GameManager - Le tableau des abandons
      */
-    static ArrayList<Integer> abs = new ArrayList<>();
+    ArrayList<Integer> abs = new ArrayList<>();
     /**
      * Attribut game_rang de la Classe GameManager
      */
@@ -63,7 +63,7 @@ public class GameManager {
 
     /**
      * Méthode getPlateau - Getter de la table
-     * 
+     *
      * @return lePlateauDeLaPartie
      */
     Table getPlateau() {
@@ -73,17 +73,17 @@ public class GameManager {
 
     /**
      * Methode getAbs - Renvoie la table des abandons
-     * 
+     *
      * @return laTableDesAbandons
      */
     ArrayList <Integer> getAbs() {
-        return GameManager.abs;
+        return this.abs;
     }
 
 
     /**
      * Methode getPM - Getter de l'attribut printManager
-     * 
+     *
      * @return printManager
      */
     public PrintManager getPM() {
@@ -93,7 +93,7 @@ public class GameManager {
 
     /**
      * Methode getLastCard - Renvoie la derniere carte de la table
-     * 
+     *
      * @return laDerniereCarteDeLaTable
      */
     Carte getLastCard() {
@@ -103,7 +103,7 @@ public class GameManager {
 
     /**
      * Methode getJeu - Renvoie le deck de jeu de la partie
-     * 
+     *
      * @return leDeckDeJeuDeLaPartie
      */
     Packet getJeu() {
@@ -113,9 +113,9 @@ public class GameManager {
 
     /**
      * Methode getJoueur - Renvoie un joueur cible
-     * 
+     *
      * @param player_id
-     * 
+     *
      * @return unJoueurCible
      */
     public Player getJoueur(int player_id) {
@@ -125,7 +125,7 @@ public class GameManager {
 
     /**
      * Methode getPlayer_list - Getter de la liste des joueurs de la partie
-     * 
+     *
      * @return laListeDesJoueursDeLaPartie
      */
     public ArrayList <Player> getPlayer_list() {
@@ -135,7 +135,7 @@ public class GameManager {
 
     /**
      * Methode getWinner - Renvoie le gagant de la partie
-     * 
+     *
      * @return leGagantDeLaPartie
      */
     Player getWinner() {
@@ -146,10 +146,10 @@ public class GameManager {
         } return null;
     }
 
-    
+
     /**
      * Methode - Renvoie l'index d'avancee de la partie
-     * 
+     *
      * @return indexDAvancee
      */
     int get_game_rang() {
@@ -159,7 +159,7 @@ public class GameManager {
 
     /**
      * Methode getPioche - Getter de la pioche du jeu
-     * 
+     *
      * @return laPiocheDuJeu
      */
     Packet getPioche() {
@@ -169,7 +169,7 @@ public class GameManager {
 
     /**
      * Methode get_list_of_winner - Getter de la liste des gagants
-     * 
+     *
      * @return laListe des gagants
      */
     ArrayList <Player> get_list_of_winner() {
@@ -234,7 +234,7 @@ public class GameManager {
     /**
      * Méthode checkValuePropositions - Vérifie la validité de la selection
      * d'une action
-     * 
+     *
      * @return siLaPropositionEstValable
      */
     boolean checkValuePropositions(int input) {
@@ -279,17 +279,17 @@ public class GameManager {
 
    /**
      * Methode addToAbs - Ajoute le joueur cible à la table des abandons
-     * 
+     *
      * @param player_targeted
      */
     void addToAbs(Player player_targeted) {
         this.getAbs().add(player_targeted.getId());
     }
 
-    
+
     /**
      * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
-     * 
+     *
      * @return laValiditeDUneCarte
      */
     boolean check_choice2(Player player_targeted, int input) {
@@ -308,7 +308,7 @@ public class GameManager {
 
     /**
      * Methode poser_carte - Permet à un joueur de poser une carte
-     * 
+     *
      * @param player_targeted
      * @param card_id
      */
@@ -319,7 +319,7 @@ public class GameManager {
 
     /**
      * Methode deckEmpty - Renvoie le remplissage du deck du joueur cible
-     * 
+     *
      * @return siLeDeckEstVide
      */
     boolean deckEmpty(Player player_targeted) {
@@ -329,7 +329,7 @@ public class GameManager {
 
     /**
      * Methode dernier_joueur - Renvoie s'il ne reste qu'un joueur dans la partie
-     * 
+     *
      * @return sIlNeResteQuUnJoueur
      */
     boolean dernier_joueur() {
@@ -339,7 +339,7 @@ public class GameManager {
 
     /**
      * Methode winner_here - Renvoie si un joueur possede l'etat de gagant
-     * 
+     *
      * @return etatDeVictoireDUnJoueur
      */
     boolean winner_here() {
@@ -352,8 +352,8 @@ public class GameManager {
 
 
     /**
-     * Methode - Initialise l'index d'avancee de la partie 
-     * 
+     * Methode - Initialise l'index d'avancee de la partie
+     *
      * @param e
      */
     void set_game_rang(int e) {
@@ -363,7 +363,7 @@ public class GameManager {
 
     /**
      * Methode - Incremente l'index d'avancee de la partie
-     * 
+     *
      * @return lIndexDAvancee
      */
     int increase_rang() {
@@ -374,7 +374,7 @@ public class GameManager {
 
     /**
      * Methode - Decremente l'index d'avancee de la partie
-     * 
+     *
      * @return lIndexDAvancee
      */
     int decrease_rang() {
@@ -387,13 +387,13 @@ public class GameManager {
      * Methode describe_game_players - Description des informations des joueurs de la partie
      */
     public void describe_game_players() {
-        this.getPM().lineJump(1);
+        PrintManager.lineJump(1);
         String player_list = "";
         for (Player p : this.getPlayer_list()) {
             player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes   |   " + p.getState() + "\n";
         }
         System.out.println(player_list);
-        this.getPM().lineJump(2);
+        PrintManager.lineJump(2);
     }
 
 
@@ -438,7 +438,7 @@ public class GameManager {
         ArrayList<Integer> abs = new ArrayList<>();            // Table des abandons
 
         while (abs.size() != this.getNbJoueurs() - 1) {         // Condition de fin de partie : Ne reste qu'un Player
-    
+
             printManager.separation();
             this.getPlateau().description();
             printManager.lineJump(2);
@@ -592,7 +592,7 @@ public class GameManager {
                     }
 
                     default -> {            // Par default, si une proposition n'est pas correcte, le joueur resaisie
-                        printManager.printError(1);    
+                        printManager.printError(1);
                         rang--;
                     }
                 }
@@ -616,14 +616,14 @@ public class GameManager {
 
     /**
      * Methode action - Chargee de proposer et valider les chiox de jeu, faits au joueur actuel
-     * 
+     *
      * @return unEtatDeJeuDuJoueur
      */
     State action() {
 
         this.getPM().propositions2();
-        this.getPM().lineJump(1);
-        int input = this.getPM().checkInput2(4, this.getPM().printError2(1));
+        PrintManager.lineJump(1);
+        int input = PrintManager.checkInput2(4, PrintManager.printError2(1));
 
         switch (input) {
             case 0 -> { return State.RETOUR_MENU; }
@@ -631,7 +631,7 @@ public class GameManager {
             case 2 -> { return State.A_PIOCHER; }
             case 100 -> { return State.A_ABANDONNE; }
             default -> {
-                this.getPM().printError2(4);
+                PrintManager.printError2(2);
                 return State.RETOUR_MENU;
             }
         }
@@ -640,20 +640,20 @@ public class GameManager {
 
     /**
      * Methode turn - Orchestre la logique de jeu selon l'etat du joueur actuel
-     * 
+     *
      * @param player_targeted
      */
     void turn(Player player_targeted) {
 
         switch(action()) {
-            case RETOUR_MENU -> {
+            case RETOUR_MENU, NONE -> {
                 this.getPM().cleaning();
                 this.decrease_rang();
             }
 
             case CARTE_POSEE -> {
 
-                int input = this.getPM().checkInput2(4, "Choisissez votre carte : ");
+                int input = PrintManager.checkInput2(4, "Choisissez votre carte : ");
                 Carte lastCard = this.getLastCard();
 
                 if (this.check_choice2(player_targeted, input) && lastCard.association(player_targeted.getCardByIndex(input - 1))) {
@@ -674,7 +674,7 @@ public class GameManager {
             }
 
             case A_ABANDONNE -> {
-                addToAbs(player_targeted);
+                this.addToAbs(player_targeted);
                 player_targeted.setState(3);
 
                 if (this.dernier_joueur()) {
@@ -699,7 +699,7 @@ public class GameManager {
 
     /**
      * Methode game_2 - Chargee d'organiser la partie
-     * 
+     *
      * @return leGagantDeLaPartie
      */
     public Player game_2() {
@@ -710,11 +710,19 @@ public class GameManager {
         while (!this.winner_here()) {
 
             current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
-            
+
+
+            if ((this.getAbs().contains(current.getId()))) {
+                this.increase_rang();
+            }
+
+            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
+
+
                 this.describe_game_players();
                 this.describe_current_player(current);
                 this.describe_game_card();
-                printManager.lineJump(1);
+                PrintManager.lineJump(1);
 
             this.turn(current);
             this.increase_rang();
@@ -753,7 +761,7 @@ public class GameManager {
 */
 
 
-        this.getPM().present_winner(this.getWinner());
+        // this.getPM().present_winner(this.getWinner());
         return this.getWinner();
     }
 
@@ -762,6 +770,18 @@ public class GameManager {
 
 
     public static void main(String[] args) {
-        GameManager gamecontrol = new GameManager(); gamecontrol.game_2();
+
+        ArrayList <Player> winners = new ArrayList<>();
+        GameManager gamecontrol = new GameManager();
+
+        winners.add(gamecontrol.game_2());
+
+        while (PrintManager.checkInput2(2, "\nVoulez-vous relancer une partie ?\nOui : 1   |   Non : 0   |   Votre choix : ") == 1) {
+            winners.add(new GameManager().game_2());
+        }
+
+        gamecontrol.getPM().cleaning();
+        PrintManager.present_winners_both(winners);
+
     }
 }

@@ -254,6 +254,11 @@ public class Player {
     }
 
 
+    public static void resetId() {
+        Player.identifiant = 0;
+    }
+
+
     /**
      * Methode reset - Reinitialisation des attributs du joueur
      */

@@ -52,7 +52,7 @@ public class Table {
             for (int i = 0; i < nbJoueurs; i++) {
                 this.joueurs.add(new Player());
             }
-        }
+        } Player.resetId();
     }
 
 
