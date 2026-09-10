@@ -24,7 +24,7 @@ public class GameManager {
     /**
      * Enumerateur d'etat de la Classe GameManager
      */
-    static enum State {CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
+    public static enum State {NONE, CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
     /**
      * Attribut abs de la Classe GameManager - Le tableau des abandons
      */
@@ -382,7 +382,7 @@ public class GameManager {
         this.getPM().lineJump(1);
         String player_list = "";
         for (Player p : this.getPlayer_list()) {
-            player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes\n";
+            player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes   |   " + p.getState() + "\n";
         }
         System.out.println(player_list);
         this.getPM().lineJump(2);
@@ -606,8 +606,6 @@ public class GameManager {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
     /**
      * Methode action - Chargee de proposer et valider les chiox de jeu, faits au joueur actuel
      * 
@@ -662,6 +660,7 @@ public class GameManager {
 
                     this.reload_pioche();
                     this.poser_carte(player_targeted, input - 1);
+                    player_targeted.setState(1);
 
                     if (this.deckEmpty(player_targeted)) {
                         player_targeted.setWin(true);
@@ -671,10 +670,12 @@ public class GameManager {
 
             case A_PIOCHER -> {
                 this.piocher(player_targeted);
+                player_targeted.setState(2);
             }
 
             case A_ABANDONNE -> {
                 addToAbs(player_targeted);
+                player_targeted.setState(3);
 
                 if (this.dernier_joueur()) {
                     this.getJoueur(this.compare_Array()).setWin(true);
@@ -757,12 +758,8 @@ public class GameManager {
     }
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {
-
         GameManager gamecontrol = new GameManager(); gamecontrol.game_2();
-
     }
 }

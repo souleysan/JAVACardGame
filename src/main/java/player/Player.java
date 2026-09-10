@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import items.Carte;
 import items.Packet;
+import manager.GameManager;
 
 public class Player {
 
@@ -35,6 +36,10 @@ public class Player {
      * Attribut win de la Classe Player - True, si ce joueur est le gagnant
      */
     boolean win;
+    
+    //enum State {A_ABANDONNE, A_PIOCHER, CARTE_POSEE, RETOUR_MENU};
+    //State s = GameManager.State.values()[0];
+    GameManager.State s = GameManager.State.values()[0];
 
     /**
      * [Unique] Constructeur de la Classe Player
@@ -128,8 +133,18 @@ public class Player {
     }
 
 
+    public GameManager.State getState() {
+        return this.s;
+    }
+
+
     void setNom(Nom nom) {
         this.nom = nom;
+    }
+
+
+    public void setState(int s) {
+        this.s = GameManager.State.values()[s];
     }
 
 
@@ -232,4 +247,8 @@ public class Player {
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
 
+    public static void main (String [] args) {
+        Player p = new Player();
+        System.out.println(p.s);
+    }
 }
