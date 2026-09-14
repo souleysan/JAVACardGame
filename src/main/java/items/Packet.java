@@ -192,12 +192,4 @@ public class Packet {
         this.pack.remove(e);
         return e;
     }
-
-
-    /**
-     * Methode reset - Reinitialisation des attributs du packet
-     */
-    public void reset() {
-        this.getPack().clear();
-    }
 }

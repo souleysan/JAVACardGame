@@ -226,15 +226,4 @@ public class PrintManager {
         System.out.println("\nVous avez les felicitations de l'equipe de developpement");
         PrintManager.lineJump(2);
     }
-
-
-    /**
-     * Methode reeset - Reinitialisation des attributs du printManager
-     * 
-     * @param player_targeted
-     */
-    public void reset() {
-        PrintManager.scan.close();
-    }
-
 }

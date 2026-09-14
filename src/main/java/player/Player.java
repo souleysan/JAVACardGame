@@ -258,20 +258,6 @@ public class Player {
         Player.identifiant = 0;
     }
 
-
-    /**
-     * Methode reset - Reinitialisation des attributs du joueur
-     */
-    public void reset() {
-        this.setNom(null);
-        this.getDeck().reset();
-        this.setWin(false);
-        this.id = 0;
-        Player.identifiant = 0;
-
-    }
-
-
     // Ajout d'un 2e constructeur où on pourra choisir son nom avant une partie.
     // void passerTour() {} // On verra plus tard
 }

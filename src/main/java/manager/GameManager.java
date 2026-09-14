@@ -739,16 +739,6 @@ public class GameManager {
     }
 
 
-    /*
-    void part_reset() {          // Methode de reinitialisation partielle des atributs de la classe
-        this.game_rang = 0;
-        // this.get_list_of_winner().clear();
-        this.getPlateau().reset();
-        this.getPM().reset();
-        this.scan1.close();
-        this.getAbs().clear();
-    }
-     */
     /**
      * Methode game_2 - Chargee d'organiser la partie
      *

@@ -149,15 +149,4 @@ public class Table {
     ArrayList<Player> getPlayerList() {
         return this.joueurs;
     }
-
-
-    /**
-     * Methode reset - Reinitialisation des attributs de la table
-     */
-    public void reset() {
-        this.joueurs.clear();
-        this.nbJoueurs = 0;
-        this.getJeu().reset();
-        this.getPioche().reset();
-    }
 }
