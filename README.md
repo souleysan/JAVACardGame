@@ -2,7 +2,7 @@
 Le **8 Américain** est un jeu de cartes pour 2 à 5 joueurs (dans cette version).
 
 ### Le But du jeu
-Se débarrasser de toutes ses cartes avant les autres, pour ce faire il y a quelques règles et spécificités à connaître.
+Être le premier à se débarrasser de toutes ses cartes. Pour ce faire, il y a quelques règles et spécificités à connaître.
 
 ### Principe
 Chaque joueur reçoit n cartes. À tour de rôle, les joueurs posent une carte qui correspond soit à la **couleur** (*cœur, pique, carreaux, trèfle*), soit à la **valeur** (*de l'As au Roi*) de la carte du dessus de la pile. S'ils ne peuvent pas jouer, ils piochent (ou abandonne).
