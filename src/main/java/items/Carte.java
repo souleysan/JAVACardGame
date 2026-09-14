@@ -113,6 +113,11 @@ public class Carte {
     }
 
 
+    public boolean estValet() {
+        return this.valeur == Valeur.VALET;
+    }
+
+
     /**
      * Méthode compareValeur - Renvoie TRUE, si les valeurs de la carte mère et
      * cible sont les mêmes

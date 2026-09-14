@@ -56,7 +56,7 @@ public class PrintManager {
      * Methode cleaning - Nettoyage et remontee du terminal
      */
     public void cleaning(){
-        this.lineJump(15);
+        PrintManager.lineJump(15);
         this.vaccum();
         this.separation();
     }

@@ -1,5 +1,6 @@
 package manager;
 
+//import Math.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,10 +22,13 @@ public class GameManager {
      * Attribut printManager de la Classe GameManager
      */
     PrintManager printManager;
+
     /**
      * Enumerateur d'etat de la Classe GameManager
      */
-    public static enum State {NONE, CARTE_POSEE, A_PIOCHER, A_ABANDONNE, RETOUR_MENU}
+    public static enum State {
+        NONE, CARTE_POSEE, A_PIOCHER, TOUR_SAUTE, A_ABANDONNE, RETOUR_MENU
+    }
     /**
      * Attribut abs de la Classe GameManager - Le tableau des abandons
      */
@@ -36,8 +40,7 @@ public class GameManager {
     /**
      * Attribut list_of_winners de la Classe GameManager
      */
-    ArrayList <Player> list_of_winners = new ArrayList<>();
-
+    ArrayList<Player> list_of_winners = new ArrayList<>();
 
     /**
      * [Unique] Constructeur de la classe GameManager - Initialise les
@@ -76,7 +79,7 @@ public class GameManager {
      *
      * @return laTableDesAbandons
      */
-    ArrayList <Integer> getAbs() {
+    ArrayList<Integer> getAbs() {
         return this.abs;
     }
 
@@ -128,7 +131,7 @@ public class GameManager {
      *
      * @return laListeDesJoueursDeLaPartie
      */
-    public ArrayList <Player> getPlayer_list() {
+    public ArrayList<Player> getPlayer_list() {
         return getPlateau().getPlayerList();
     }
 
@@ -143,7 +146,8 @@ public class GameManager {
             if (p.getWin()) {
                 return p;
             }
-        } return null;
+        }
+        return null;
     }
 
 
@@ -172,13 +176,14 @@ public class GameManager {
      *
      * @return laListe des gagants
      */
-    ArrayList <Player> get_list_of_winner() {
+    ArrayList<Player> get_list_of_winner() {
         return this.list_of_winners;
     }
 
 
     /**
-     * Méthode nombreDeJoueur - Initialise un paramètre du nombre de Player/Carte
+     * Méthode nombreDeJoueur - Initialise un paramètre du nombre de
+     * Player/Carte
      *
      * @return nombreDeJoueur/nombreDeCartes;
      */
@@ -230,7 +235,6 @@ public class GameManager {
 
     }
 
-
     /**
      * Méthode checkValuePropositions - Vérifie la validité de la selection
      * d'une action
@@ -254,8 +258,8 @@ public class GameManager {
 
 
     /**
-     * Méthode compare_Array - Renvoie l'id du joueur manquant dans la table des abandons
-     * Le seul n'ayant pas abandonné
+     * Méthode compare_Array - Renvoie l'id du joueur manquant dans la table des
+     * abandons Le seul n'ayant pas abandonné
      *
      * @return unEntierManquant
      */
@@ -277,7 +281,7 @@ public class GameManager {
     }
 
 
-   /**
+    /**
      * Methode addToAbs - Ajoute le joueur cible à la table des abandons
      *
      * @param player_targeted
@@ -288,7 +292,8 @@ public class GameManager {
 
 
     /**
-     * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
+     * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un
+     * joueur
      *
      * @return laValiditeDUneCarte
      */
@@ -305,6 +310,15 @@ public class GameManager {
         player_targeted.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
     }
 
+    void piocherDeux(Player player_targeted) {
+        // int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
+        player_targeted.piocherDeux(this.getPioche()); // (this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+    }
+
+    void piocherCinq(Player player_targeted) {
+        // int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
+        player_targeted.piocherCinq(this.getPioche()); // (this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+    }
 
     /**
      * Methode poser_carte - Permet à un joueur de poser une carte
@@ -328,7 +342,8 @@ public class GameManager {
 
 
     /**
-     * Methode dernier_joueur - Renvoie s'il ne reste qu'un joueur dans la partie
+     * Methode dernier_joueur - Renvoie s'il ne reste qu'un joueur dans la
+     * partie
      *
      * @return sIlNeResteQuUnJoueur
      */
@@ -347,7 +362,8 @@ public class GameManager {
             if (p.getWin()) {
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
 
 
@@ -384,7 +400,8 @@ public class GameManager {
 
 
     /**
-     * Methode describe_game_players - Description des informations des joueurs de la partie
+     * Methode describe_game_players - Description des informations des joueurs
+     * de la partie
      */
     public void describe_game_players() {
         PrintManager.lineJump(1);
@@ -393,6 +410,8 @@ public class GameManager {
             player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes   |   " + p.getState() + "\n";
         }
         System.out.println(player_list);
+        //PrintManager.lineJump(1);
+        System.out.println("Pioche : " + this.getPioche().getSize() + " cartes restantes");
         PrintManager.lineJump(2);
     }
 
@@ -415,14 +434,21 @@ public class GameManager {
 
 
     /**
-     * Methode reload_pioche - Rafraichit la pioche en ajoutant les cartes [inutiles] de la pile de jeu
+     * Methode reload_pioche - Rafraichit la pioche en ajoutant les cartes
+     * [inutiles] de la pile de jeu
      */
     public void reload_pioche() {
         this.getPioche().initPioche(this.getJeu());
     }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    void reload_pioche_by_player(Player p) {
+        for (Carte c : p.getPack()) {
+            this.getPioche().piocher(c);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Méthode game - Fonction qui gère la partie
      */
@@ -441,7 +467,7 @@ public class GameManager {
 
             printManager.separation();
             this.getPlateau().description();
-            printManager.lineJump(2);
+            PrintManager.lineJump(2);
 
             current = this.getPlateau().getPlayer(rang % nbj);
             lastCard = this.getPlateau().getLastCard();
@@ -455,7 +481,7 @@ public class GameManager {
             printManager.separation();
             current.description();
             this.getPlateau().getJeu().description();
-            printManager.lineJump(1);
+            PrintManager.lineJump(1);
 
             printManager.propositions();
 
@@ -505,7 +531,8 @@ public class GameManager {
                                                 return gagnant;
                                             }
                                         }
-                                    } break;
+                                    }
+                                    break;
                                 }
                             }
 
@@ -542,8 +569,11 @@ public class GameManager {
                                                 return gagnant;
                                             }
                                         }
-                                    } break;
-                                } else { choice = input - 1; }
+                                    }
+                                    break;
+                                } else {
+                                    choice = input - 1;
+                                }
                             }
                         } else {
                             scan1.next();
@@ -580,7 +610,9 @@ public class GameManager {
                             continue;
                         }
 
-                        if (input == 0) { continue; } // Option de retour au menu, avec 0
+                        if (input == 0) {
+                            continue;
+                        } // Option de retour au menu, avec 0
                         else if (input == 1) { // Confirmation, avec 1
                             abs.add(current.getId());
                             if (abs.size() == this.getNbJoueurs() - 1) {
@@ -611,7 +643,8 @@ public class GameManager {
         printManager.vaccum();
         return current;
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -626,10 +659,18 @@ public class GameManager {
         int input = PrintManager.checkInput2(4, PrintManager.printError2(1));
 
         switch (input) {
-            case 0 -> { return State.RETOUR_MENU; }
-            case 1 -> { return State.CARTE_POSEE; }
-            case 2 -> { return State.A_PIOCHER; }
-            case 100 -> { return State.A_ABANDONNE; }
+            case 0 -> {
+                return State.RETOUR_MENU;
+            }
+            case 1 -> {
+                return State.CARTE_POSEE;
+            }
+            case 2 -> {
+                return State.A_PIOCHER;
+            }
+            case 100 -> {
+                return State.A_ABANDONNE;
+            }
             default -> {
                 PrintManager.printError2(2);
                 return State.RETOUR_MENU;
@@ -645,7 +686,7 @@ public class GameManager {
      */
     void turn(Player player_targeted) {
 
-        switch(action()) {
+        switch (action()) {
             case RETOUR_MENU, NONE -> {
                 this.getPM().cleaning();
                 this.decrease_rang();
@@ -665,7 +706,9 @@ public class GameManager {
                     if (this.deckEmpty(player_targeted)) {
                         player_targeted.setWin(true);
                     }
-                } else { this.decrease_rang(); }
+                } else {
+                    this.decrease_rang();
+                }
             }
 
             case A_PIOCHER -> {
@@ -675,7 +718,8 @@ public class GameManager {
 
             case A_ABANDONNE -> {
                 this.addToAbs(player_targeted);
-                player_targeted.setState(3);
+                player_targeted.setState(4);
+                this.reload_pioche_by_player(player_targeted);
 
                 if (this.dernier_joueur()) {
                     this.getJoueur(this.compare_Array()).setWin(true);
@@ -685,7 +729,7 @@ public class GameManager {
     }
 
 
-/*
+    /*
     void part_reset() {          // Methode de reinitialisation partielle des atributs de la classe
         this.game_rang = 0;
         // this.get_list_of_winner().clear();
@@ -694,9 +738,7 @@ public class GameManager {
         this.scan1.close();
         this.getAbs().clear();
     }
-*/
-
-
+     */
     /**
      * Methode game_2 - Chargee d'organiser la partie
      *
@@ -705,24 +747,65 @@ public class GameManager {
     public Player game_2() {
 
         this.getPM().cleaning();
-        Player current;
-
+        Player previous, current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+        
         while (!this.winner_here()) {
 
-            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
 
+            if (this.get_game_rang() != 0) {
+                previous = this.getPlateau().getPlayer(Math.abs((this.get_game_rang() - 1)) % this.getNbJoueurs());
+                if (previous.getState() == State.CARTE_POSEE) {
 
-            if ((this.getAbs().contains(current.getId()))) {
-                this.increase_rang();
+                    if (this.getLastCard().estDeux()) {
+                        this.piocherDeux(current);
+                        this.increase_rang();
+                    } else if (this.getLastCard().estValet()) {
+                        this.piocherCinq(current);
+                        this.increase_rang();
+                    } else if (this.getLastCard().estSept()) { // Inversion du sens du tour l
+                        this.set_game_rang((-1 * this.get_game_rang()) + 2);
+                    }
+                }
             }
 
-            current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
+            current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+            // previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
 
+            if (this.getAbs().contains(current.getId()) || (this.getLastCard().estAs())) {
 
-                this.describe_game_players();
-                this.describe_current_player(current);
-                this.describe_game_card();
-                PrintManager.lineJump(1);
+                if (this.get_game_rang() != 0) {
+                    previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
+                    if (previous.getState() == State.CARTE_POSEE) {
+                        current.setState(3);
+                    }       //       ERROR INDEX
+                }
+
+                this.increase_rang();
+                current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
+            }
+
+            /*
+            if (this.get_game_rang() != 0) {
+                previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
+                if (previous.getState() == State.CARTE_POSEE) {
+
+                    if (this.getLastCard().estDeux()) {
+                        this.piocherDeux(current);
+                        this.increase_rang();
+                    } else if (this.getLastCard().estValet()) {
+                        this.piocherCinq(current);
+                        this.increase_rang();
+                    } else if (this.getLastCard().estSept()) { // Inversion du sens du tour
+                        this.set_game_rang(-1 * this.get_game_rang());
+                    }
+
+                }
+            }
+             */
+            this.describe_game_players();
+            this.describe_current_player(current);
+            this.describe_game_card();
+            PrintManager.lineJump(1);
 
             this.turn(current);
             this.increase_rang();
@@ -731,13 +814,12 @@ public class GameManager {
 
         this.get_list_of_winner().add(this.getWinner());
 
-
         // REFLEXION :
-            // - PROPOSITION DE RELANCE D'UNE PARTIE, SELON "Oui"/"Non"
-                // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
-                // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
+        // - PROPOSITION DE RELANCE D'UNE PARTIE, SELON "Oui"/"Non"
+        // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
+        // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
 
-/*
+        /*
         int input = this.getPM().checkInput2(4, "Voulez-vous relancer une nouvelle partie ?\n 1 : Oui    |    0 : Non\nVotre choix : ");
         switch (input) {
             case 0 -> {
@@ -758,20 +840,14 @@ public class GameManager {
         } else {
             this.getPM().present_winners(list_of_winners);      // Presentation des gagnants (si plusieurs partie d'affilee)
         }
-*/
-
-
+         */
         // this.getPM().present_winner(this.getWinner());
         return this.getWinner();
     }
 
-
-
-
-
     public static void main(String[] args) {
 
-        ArrayList <Player> winners = new ArrayList<>();
+        ArrayList<Player> winners = new ArrayList<>();
         GameManager gamecontrol = new GameManager();
 
         winners.add(gamecontrol.game_2());
@@ -783,5 +859,20 @@ public class GameManager {
         gamecontrol.getPM().cleaning();
         PrintManager.present_winners_both(winners);
 
+/*
+        int[] tab = {0, 1, 2, 3, 4, 5, 6};
+
+        for (int i = 0; i < 7; i++) {
+            System.out.print(tab[(3 + i) % 4]);
+        }
+        System.out.println();
+        for (int i = 0; i < 7; i++) {
+            System.out.print(tab[(Math.abs(i - 3)) % 4]);
+        }
+
+        // System.out.println(Math.abs((-3)%4));
+*/    
+
     }
+
 }
