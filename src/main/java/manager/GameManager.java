@@ -1,6 +1,5 @@
 package manager;
 
-//import Math.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -43,8 +42,7 @@ public class GameManager {
     ArrayList<Player> list_of_winners = new ArrayList<>();
 
     /**
-     * [Unique] Constructeur de la classe GameManager - Initialise les
-     * paramètres de la partie
+     * [Unique] Constructeur de la classe GameManager - Initialise les paramètres de la partie
      */
     public GameManager() {
         int nbJoueurs = this.parameterNumber("joueurs");
@@ -236,8 +234,7 @@ public class GameManager {
     }
 
     /**
-     * Méthode checkValuePropositions - Vérifie la validité de la selection
-     * d'une action
+     * Méthode checkValuePropositions - Vérifie la validité de la selection d'une action
      *
      * @return siLaPropositionEstValable
      */
@@ -247,8 +244,7 @@ public class GameManager {
 
 
     /**
-     * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans un
-     * tableau
+     * Méthode estDansABS - Renvoie TRUE, si un entier index se trouve dans un tableau
      *
      * @return siLIndexSeTrouveDansLeTableau
      */
@@ -258,8 +254,7 @@ public class GameManager {
 
 
     /**
-     * Méthode compare_Array - Renvoie l'id du joueur manquant dans la table des
-     * abandons Le seul n'ayant pas abandonné
+     * Méthode compare_Array - Renvoie l'id du joueur manquant dans la table des abandons Le seul n'ayant pas abandonné
      *
      * @return unEntierManquant
      */
@@ -292,8 +287,7 @@ public class GameManager {
 
 
     /**
-     * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un
-     * joueur
+     * Méthode check_choice2 - Verifie la validite d'une carte, par rapport à un joueur
      *
      * @return laValiditeDUneCarte
      */
@@ -310,15 +304,26 @@ public class GameManager {
         player_targeted.piocher(this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
     }
 
+
+    /**
+     * Methode piocherDeux - Permet au joueur cible de piocher 2 cartes d'affilé
+     * 
+     * @param player_targeted
+     */
     void piocherDeux(Player player_targeted) {
-        // int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
-        player_targeted.piocherDeux(this.getPioche()); // (this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+        player_targeted.piocherDeux(this.getPioche());
     }
 
+
+    /**
+     * Methode piocherDeux - Permet au joueur cible de piocher 2 cartes d'affilé
+     * 
+     * @param player_targeted
+     */
     void piocherCinq(Player player_targeted) {
-        // int rand = (int) (Math.random() * this.getPlateau().getPioche().getSize());
-        player_targeted.piocherCinq(this.getPioche()); // (this.getPlateau().getPioche().defausser(this.getPlateau().getPioche().getCardByIndex(rand)));
+        player_targeted.piocherCinq(this.getPioche());
     }
+
 
     /**
      * Methode poser_carte - Permet à un joueur de poser une carte
@@ -442,6 +447,11 @@ public class GameManager {
     }
 
 
+    /**
+     * Methode reload_pioche_by_player - Recharge la pioche avec les cartes du joueur cible
+     * 
+     * @param p
+     */
     void reload_pioche_by_player(Player p) {
         for (Carte c : p.getPack()) {
             this.getPioche().piocher(c);
@@ -762,14 +772,13 @@ public class GameManager {
                     } else if (this.getLastCard().estValet()) {
                         this.piocherCinq(current);
                         this.increase_rang();
-                    } else if (this.getLastCard().estSept()) { // Inversion du sens du tour l
+                    } else if (this.getLastCard().estSept()) {
                         this.set_game_rang((-1 * this.get_game_rang()) + 2);
                     }
                 }
             }
 
             current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
-            // previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
 
             if (this.getAbs().contains(current.getId()) || (this.getLastCard().estAs())) {
 
@@ -777,31 +786,13 @@ public class GameManager {
                     previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
                     if (previous.getState() == State.CARTE_POSEE) {
                         current.setState(3);
-                    }       //       ERROR INDEX
+                    }
                 }
 
                 this.increase_rang();
                 current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
             }
 
-            /*
-            if (this.get_game_rang() != 0) {
-                previous = this.getPlateau().getPlayer((this.get_game_rang() - 1) % this.getNbJoueurs());
-                if (previous.getState() == State.CARTE_POSEE) {
-
-                    if (this.getLastCard().estDeux()) {
-                        this.piocherDeux(current);
-                        this.increase_rang();
-                    } else if (this.getLastCard().estValet()) {
-                        this.piocherCinq(current);
-                        this.increase_rang();
-                    } else if (this.getLastCard().estSept()) { // Inversion du sens du tour
-                        this.set_game_rang(-1 * this.get_game_rang());
-                    }
-
-                }
-            }
-             */
             this.describe_game_players();
             this.describe_current_player(current);
             this.describe_game_card();
@@ -814,34 +805,6 @@ public class GameManager {
 
         this.get_list_of_winner().add(this.getWinner());
 
-        // REFLEXION :
-        // - PROPOSITION DE RELANCE D'UNE PARTIE, SELON "Oui"/"Non"
-        // - SI "OUI"   :   RENVOIE LA LISTE DE TOUS LES GAGNANTS CONSECUTIFS --> game_consecutives
-        // - SI "NON"   :   game_2 RENVOIE SON GAGNANT (COMME HABITUELLEMENT)
-
-        /*
-        int input = this.getPM().checkInput2(4, "Voulez-vous relancer une nouvelle partie ?\n 1 : Oui    |    0 : Non\nVotre choix : ");
-        switch (input) {
-            case 0 -> {
-                this.getPM().cleaning();
-                break;
-            }
-            case 1 -> {
-
-                this.getPM().cleaning();                        // MODIF
-                this.part_reset(); // Methode de reset de la Classe ////////////////////////////////////////////////////////////////////////////////////////
-                GameManager newGame = new GameManager(); // METHODE DE RESET + DE COPIAGE DES ATTRIBUTS D'UN NOUVEAU GAMEMANAGER
-                this.get_list_of_winner().add(newGame.game_2());
-            }
-        }
-
-        if (this.get_list_of_winner().size() == 1) {
-            this.getPM().present_winner(this.getWinner());      // Presentation du gagnant (si qu'un seul)
-        } else {
-            this.getPM().present_winners(list_of_winners);      // Presentation des gagnants (si plusieurs partie d'affilee)
-        }
-         */
-        // this.getPM().present_winner(this.getWinner());
         return this.getWinner();
     }
 
@@ -858,21 +821,6 @@ public class GameManager {
 
         gamecontrol.getPM().cleaning();
         PrintManager.present_winners_both(winners);
-
-/*
-        int[] tab = {0, 1, 2, 3, 4, 5, 6};
-
-        for (int i = 0; i < 7; i++) {
-            System.out.print(tab[(3 + i) % 4]);
-        }
-        System.out.println();
-        for (int i = 0; i < 7; i++) {
-            System.out.print(tab[(Math.abs(i - 3)) % 4]);
-        }
-
-        // System.out.println(Math.abs((-3)%4));
-*/    
-
     }
 
 }

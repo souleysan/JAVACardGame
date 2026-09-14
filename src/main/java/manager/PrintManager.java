@@ -85,7 +85,7 @@ public class PrintManager {
      */
     public int checkInput(int errorId, String prompt) {
         System.out.print(prompt);
-        while (!this.scan.hasNextInt()) {
+        while (!PrintManager.scan.hasNextInt()) {
             scan.next();
             this.printError(errorId);
         } return scan.nextInt();
@@ -207,7 +207,12 @@ public class PrintManager {
     }
 
 
-    public static void present_winners_both(ArrayList<Player> list) {      // OFFICIEL
+    /**
+     * Methode present_winners_both - Description du/des joueur.s en fonction de leur nombre
+     * 
+     * @param list
+     */
+    public static void present_winners_both(ArrayList<Player> list) {
         PrintManager.lineJump(2);
         
         if (list.size() <= 1) {

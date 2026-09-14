@@ -113,6 +113,11 @@ public class Carte {
     }
 
 
+    /**
+     * Méthode estValet - Revoie TRUE, si la carte possède la valeur VALET
+     * 
+     * @return siLaCarteEstUnVALET
+     */
     public boolean estValet() {
         return this.valeur == Valeur.VALET;
     }
