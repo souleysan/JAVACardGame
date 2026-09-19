@@ -762,9 +762,9 @@ public class GameManager {
                     } else if (this.getLastCard().estValet()) {
                         this.piocherCinq(current);
                         this.increase_rang();
-                    } else if (this.getLastCard().estSept()) {
-                        this.set_game_rang((-1 * this.get_game_rang()) + 2);
-                    }
+                    } /* else if (this.getLastCard().estSept()) {
+                        this.set_game_rang((-1 * this.get_game_rang()) + 2);        PROCHAINE VUE...
+                    } */
                 }
             }
 
