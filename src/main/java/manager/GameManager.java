@@ -21,6 +21,7 @@ public class GameManager {
      * Attribut printManager de la Classe GameManager
      */
     PrintManager printManager;
+    boolean sens;
 
     /**
      * Enumerateur d'etat de la Classe GameManager
@@ -388,8 +389,13 @@ public class GameManager {
      * @return lIndexDAvancee
      */
     int increase_rang() {
-        this.set_game_rang(this.get_game_rang() + 1);
-        return this.get_game_rang();
+        if (!this.get_sens()) {
+            this.set_game_rang(this.get_game_rang() + 1);
+            return this.get_game_rang();
+        } else {
+            this.set_game_rang(this.get_game_rang() - 1);
+            return this.get_game_rang();
+        }
     }
 
 
@@ -399,8 +405,29 @@ public class GameManager {
      * @return lIndexDAvancee
      */
     int decrease_rang() {
-        this.set_game_rang(this.get_game_rang() - 1);
-        return this.get_game_rang();
+        if (!this.get_sens()) {
+            this.set_game_rang(this.get_game_rang() - 1);
+            return this.get_game_rang();
+        } else {
+            this.set_game_rang(this.get_game_rang() + 1);
+            return this.get_game_rang();
+        }
+    }
+
+
+    void reverse_game_rang() {
+        this.set_game_rang( -1 * this.get_game_rang() - 2);
+        this.set_sens(!this.get_sens());
+    }
+
+
+    boolean get_sens() {
+        return this.sens;
+    }
+
+
+    void set_sens(boolean s) {
+        this.sens = s;
     }
 
 
@@ -744,13 +771,14 @@ public class GameManager {
      *
      * @return leGagantDeLaPartie
      */
-    public Player game_2() {
+    public Player game_2() {        // GESTION : cas où il n'y a plus de cartes
 
         this.getPM().cleaning();
-        Player previous, current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+        Player previous, current; //= this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
         
         while (!this.winner_here()) {
 
+            current = this.getPlateau().getPlayer(((this.get_game_rang() % this.getNbJoueurs()) + this.getNbJoueurs()) % this.getNbJoueurs());
 
             if (this.get_game_rang() != 0) {
                 previous = this.getPlateau().getPlayer(Math.abs((this.get_game_rang() - 1)) % this.getNbJoueurs());
@@ -761,14 +789,16 @@ public class GameManager {
                         this.increase_rang();
                     } else if (this.getLastCard().estValet()) {
                         this.piocherCinq(current);
+                        //this.piocherCinq(this.getPlateau().getPlayer(this.game_rang + 1));
                         this.increase_rang();
-                    } /* else if (this.getLastCard().estSept()) {
-                        this.set_game_rang((-1 * this.get_game_rang()) + 2);        PROCHAINE VUE...
-                    } */
+                    } else if (this.getLastCard().estSept()) {
+                        this.reverse_game_rang(); // set_game_rang((-1 * this.get_game_rang()) + 2);//        PROCHAINE VUE...
+                    }
                 }
             }
 
-            current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+            //current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+            current = this.getPlateau().getPlayer(((this.get_game_rang() % this.getNbJoueurs()) + this.getNbJoueurs()) % this.getNbJoueurs());
 
             if (this.getAbs().contains(current.getId()) || (this.getLastCard().estAs())) {
 
@@ -780,7 +810,9 @@ public class GameManager {
                 }
 
                 this.increase_rang();
-                current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
+                //current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
+                //current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+                current = this.getPlateau().getPlayer(((this.get_game_rang() % this.getNbJoueurs()) + this.getNbJoueurs()) % this.getNbJoueurs());  
             }
 
             this.describe_game_players();
