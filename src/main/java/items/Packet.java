@@ -188,7 +188,6 @@ public class Packet {
      * @return laCarteDefaussee
      */
     public Carte defausser(Carte e) {
-        //Carte def = new Carte(e.getValeur(), e.getCouleur());
         this.pack.remove(e);
         return e;
     }

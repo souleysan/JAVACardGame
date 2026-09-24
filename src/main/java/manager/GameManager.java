@@ -21,6 +21,9 @@ public class GameManager {
      * Attribut printManager de la Classe GameManager
      */
     PrintManager printManager;
+    /**
+     * Attribut sens de la Calsse GameManager
+     */
     boolean sens;
 
     /**
@@ -415,17 +418,30 @@ public class GameManager {
     }
 
 
+    /**
+     * Methode reverse_game_rang - Inverse le sens du jeu, en rendant négatif l'index de suivi
+     */
     void reverse_game_rang() {
         this.set_game_rang( -1 * this.get_game_rang() - 2);
         this.set_sens(!this.get_sens());
     }
 
 
+    /**
+     * Methode get_sens - Getter du sens du jeu
+     * 
+     * @return leSensDuJeu
+     */
     boolean get_sens() {
         return this.sens;
     }
 
 
+    /**
+     * Methode set_sens - Setter du sens du jeu
+     * 
+     * @param s
+     */
     void set_sens(boolean s) {
         this.sens = s;
     }
@@ -442,7 +458,6 @@ public class GameManager {
             player_list += p.getNom() + " : " + p.getNbCartes() + " cartes restantes   |   " + p.getState() + "\n";
         }
         System.out.println(player_list);
-        //PrintManager.lineJump(1);
         System.out.println("Pioche : " + this.getPioche().getSize() + " cartes restantes");
         PrintManager.lineJump(2);
     }
@@ -771,10 +786,10 @@ public class GameManager {
      *
      * @return leGagantDeLaPartie
      */
-    public Player game_2() {        // GESTION : cas où il n'y a plus de cartes
+    public Player game_2() {
 
         this.getPM().cleaning();
-        Player previous, current; //= this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
+        Player previous, current;
         
         while (!this.winner_here()) {
 
@@ -789,15 +804,13 @@ public class GameManager {
                         this.increase_rang();
                     } else if (this.getLastCard().estValet()) {
                         this.piocherCinq(current);
-                        //this.piocherCinq(this.getPlateau().getPlayer(this.game_rang + 1));
                         this.increase_rang();
                     } else if (this.getLastCard().estSept()) {
-                        this.reverse_game_rang(); // set_game_rang((-1 * this.get_game_rang()) + 2);//        PROCHAINE VUE...
+                        this.reverse_game_rang();
                     }
                 }
             }
 
-            //current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
             current = this.getPlateau().getPlayer(((this.get_game_rang() % this.getNbJoueurs()) + this.getNbJoueurs()) % this.getNbJoueurs());
 
             if (this.getAbs().contains(current.getId()) || (this.getLastCard().estAs())) {
@@ -810,8 +823,6 @@ public class GameManager {
                 }
 
                 this.increase_rang();
-                //current = this.getPlateau().getPlayer(this.get_game_rang() % this.getNbJoueurs());
-                //current = this.getPlateau().getPlayer(Math.abs(this.get_game_rang()) % this.getNbJoueurs());
                 current = this.getPlateau().getPlayer(((this.get_game_rang() % this.getNbJoueurs()) + this.getNbJoueurs()) % this.getNbJoueurs());  
             }
 
